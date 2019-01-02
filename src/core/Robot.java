@@ -87,10 +87,14 @@ public class Robot implements Comparable {
 	}
 	
 	public void draw(GraphicsContext g) {
+		g.setStroke(Color.RED);
+		capObstacles.draw(g);
+		
+		
 		g.setStroke(Color.GREEN);
 		capObjectifs.draw(g);
 		
-		Color c = isDead() ? new Color(1., 0., 0., 0.3) : new Color(0., 0., 1., 0.3);
+		Color c = isDead() ? new Color(1., 0., 0., 1.) : new Color(0., 0., 1., 1.);
 		g.setFill(c);
 		g.fillOval(pos.x - rayon, pos.y - rayon, rayon*2, rayon*2);
 		g.setFill(new Color(1., 1., 0., 0.9));
