@@ -6,12 +6,12 @@ import javafx.scene.paint.Color;
 
 public class Objectif extends ObjetPlateau{
 	
-	private int rayon = 20;
+	private int rayon = 10;
 	public boolean[] activate;
 	
 	
 	public Objectif(int x, int y) {
-		super(x,y, 20, 20);
+		super(x,y, 10, 10);
 	}
 	
 	public void draw(GraphicsContext g) {

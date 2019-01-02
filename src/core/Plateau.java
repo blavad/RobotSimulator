@@ -60,7 +60,7 @@ public class Plateau {
 		obstacles.add(new Obstacle(width - epaisseur,0,epaisseur,height));
 		
 		int nb_mur = 0;//Outils.RAND.nextInt(4);
-		int nb_obj = 15;//Outils.RAND.nextInt(30)+3;
+		int nb_obj = Outils.RAND.nextInt(10);//Outils.RAND.nextInt(30)+3;
 		
 		for (int mur =0; mur <nb_mur; mur++) {
 			if (Outils.RAND.nextBoolean())
@@ -70,7 +70,7 @@ public class Plateau {
 		}
 		
 		for (int obj= 0; obj <nb_obj; obj++) {
-			objectifs.add(new Objectif(Outils.RAND.nextInt(this.width-40)+20,Outils.RAND.nextInt(this.height-40)+20));
+			objectifs.add(new Objectif(Outils.RAND.nextInt(this.width-2*epaisseur-4*(new Objectif(0, 0)).getRayon())+2*(new Objectif(0, 0)).getRayon(),Outils.RAND.nextInt(this.height-2*epaisseur-4*(new Objectif(0, 0)).getRayon())+2*(new Objectif(0, 0)).getRayon()));
 		}
 	}
 	

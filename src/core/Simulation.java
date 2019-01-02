@@ -9,7 +9,7 @@ import tools.*;
 public abstract class Simulation extends AnimationTimer {
 
 	/** Vitesse maximale de la simulation */
-	public static final double SPEED_MAX = 5;
+	public static final double SPEED_MAX = 15;
 	
 	/** Vitesse minimale de la simulation */
 	public static final double SPEED_MIN = 0.05;
@@ -18,7 +18,7 @@ public abstract class Simulation extends AnimationTimer {
 	public static final double SPEED_INIT = 1.0;
 	
 	/** Duree de chaque simulation en secondes */
-	public static final double DUREE_SIMUL = 20.;
+	public static final double DUREE_SIMUL = 50.;
 	
 	/** Nombre de generation maximale avant arret de la phase d'entrainement */
 	public static final int MAX_EPISODE = 1000;

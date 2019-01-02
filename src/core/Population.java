@@ -8,7 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class Population {
 	
-	public static final int STD_SIZE = 100;
+	public static final int STD_SIZE = 1000;
 	
 	private Plateau plateau;
 	private ArrayList<GeneticRobot> population = new ArrayList<GeneticRobot>();
@@ -16,7 +16,7 @@ public class Population {
 	private int size = 20;
 	private double keep_proba = 0.2;
 	public double crossoverRate = .9;
-	public double mutationRate = 0.15;
+	public double mutationRate = 0.1;
 	
 	public Population(Plateau plateau, int size, double keep_proba){
 		this.plateau = plateau;
@@ -74,7 +74,11 @@ public class Population {
 	private ArrayList<GeneticRobot> selection(){
 		// Tri la population par ordre decroissant de score
 		Collections.sort(population);
-		Debug.log.println("Max Fitness = "+ population.get(0).getScore());
+		String deb_fitness = "Max Fitness => ";
+		for (int i=1;i<5;i++) {
+			deb_fitness+= "(" +population.get(i-1).getScore() +","+ population.get(i-1).getNbFoundObj()+")   ";
+		}
+		Debug.log.println(deb_fitness);
 		// Selection des keep_proba pourcent meilleurs parents
 		int SIZE_PARENTS = (int)(this.keep_proba*this.size);
 		ArrayList<GeneticRobot> parents = new ArrayList<GeneticRobot>();

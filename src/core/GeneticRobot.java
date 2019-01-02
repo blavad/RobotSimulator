@@ -32,8 +32,8 @@ public class GeneticRobot extends Robot {
 	private void initActions() {
 		this.actions = new ArrayList<Executable>();
 		actions.add(new Avancer(this, 10));
-		actions.add(new Pivoter(this, 5));
-		actions.add(new Pivoter(this, -5));
+		actions.add(new Pivoter(this, 8));
+		actions.add(new Pivoter(this, -8));
 	}
 	
 	public void draw(GraphicsContext g) {

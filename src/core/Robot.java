@@ -23,12 +23,13 @@ public class Robot implements Comparable {
 	protected IA brain;
 	
 	protected Vect2 pos;
-	protected int rayon = 20;
+	protected int rayon = 10;
 	protected double angle;
 	protected double score;
 	protected boolean isDead = false;
 	protected int label;
-
+	protected int obj_found=0;
+	
 	public Robot(int label) {
 		this.pos = new Vect2(50, 50);
 		this.angle = 0;
@@ -87,8 +88,8 @@ public class Robot implements Comparable {
 	}
 	
 	public void draw(GraphicsContext g) {
-		g.setStroke(Color.RED);
-		capObstacles.draw(g);
+		/*g.setStroke(Color.RED);
+		capObstacles.draw(g);*/
 		
 		
 		g.setStroke(Color.GREEN);
@@ -125,6 +126,14 @@ public class Robot implements Comparable {
 	public IA getBrain() {return this.brain;}
 	
 	public int getLabel() {return this.label;}
+	
+	public void addFoundObj() {
+		this.obj_found++;
+	}
+	
+	public int getNbFoundObj() {
+		return this.obj_found;
+	}
 	
 	@Override
 	public int compareTo(Object compare) {

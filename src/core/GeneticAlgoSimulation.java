@@ -19,7 +19,7 @@ public class GeneticAlgoSimulation extends Simulation {
 	public GeneticAlgoSimulation(GraphicsContext drawContext) {
 		super(drawContext);
 		plateau.initObjectifsPerso(Population.STD_SIZE);
-		population = new Population(plateau, Population.STD_SIZE, 0.15);
+		population = new Population(plateau, Population.STD_SIZE, 0.05);
 	}
 	
 	@Override
@@ -43,7 +43,7 @@ public class GeneticAlgoSimulation extends Simulation {
         
         // On cree le nouveau plateau et la nouvelle population 
         if (population.allDead() || (speed*(lastTime-firstTime)/1.e9) > DUREE_SIMUL) {
-        	if (generation%50==0) {
+        	if (generation%4==0) {
         		this.plateau = new Plateau();
         	}
         	this.plateau.initObjectifsPerso(Population.STD_SIZE);
@@ -74,7 +74,8 @@ public class GeneticAlgoSimulation extends Simulation {
 					if (d < Math.pow(population.getRobot(rob).getRayon() + ((Objectif)ob).getRayon(), 2)) {
 						if (! ((Objectif)ob).isActive(rob)) {
 							((Objectif)ob).activate(rob);
-							population.getRobot(rob).addScore(1);
+							population.getRobot(rob).addScore((int)(DUREE_SIMUL-(speed*(lastTime-firstTime)/1.e9)));
+							population.getRobot(rob).addFoundObj();
 						}
 					}
 				}
@@ -87,7 +88,7 @@ public class GeneticAlgoSimulation extends Simulation {
 					if (intersects(population.getRobot(rob), (Obstacle)ob)) {
 						if (!population.getRobot(rob).isDead()) {
 							population.getRobot(rob).dead();
-							population.getRobot(rob).addScore(-1);
+							population.getRobot(rob).addScore(-(int)(DUREE_SIMUL-(speed*(lastTime-firstTime)/1.e9)));
 						}
 					}
 				}
