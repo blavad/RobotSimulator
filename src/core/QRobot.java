@@ -8,10 +8,6 @@ import action.Pivoter;
 import capteur.Capteur;
 import capteur.EnsembleDeCapteurs;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-import tools.Debug;
-import tools.Vect2;
 
 public class QRobot extends Robot {
 	
@@ -32,7 +28,7 @@ public class QRobot extends Robot {
 
 	public QRobot(Plateau plateau, int label) {
 		this(label);
-		this.capObjectifs = new EnsembleDeCapteurs(this, plateau.getObjectifs(),0.,0.125,0.875);
+		this.capObjectifs = new EnsembleDeCapteurs(this, plateau.getObjectifs(),0.,0.01,0.05,0.99,0.95,0.125,0.875,0.25,0.75);
 		this.capObstacles = new EnsembleDeCapteurs(this, plateau.getObstacles(),0.,0.125,0.875);
 		initActions();
 		this.brain = new QBrain((this.capObjectifs.getSize() + this.capObstacles.getSize()),this.actions.size(),NUM_STATE_PER_CAPT);
@@ -46,8 +42,8 @@ public class QRobot extends Robot {
 	private void initActions() {
 		this.actions = new ArrayList<Executable>();
 		actions.add(new Avancer(this, 10));
-		actions.add(new Pivoter(this, -4.));
-		actions.add(new Pivoter(this, 4.));
+		actions.add(new Pivoter(this, -6.));
+		actions.add(new Pivoter(this, 6.));
 	}
 
 	/** Mets a jour les parametres du robot

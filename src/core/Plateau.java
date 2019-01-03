@@ -16,7 +16,7 @@ public class Plateau {
 		this.obstacles = new EnsembleObjetP();
 		this.objectifs = new EnsembleObjetP();		
 		
-		initRandomPlateau();
+		initPlateau();
 	}
 	
 	public void initPlateau() {
@@ -26,7 +26,7 @@ public class Plateau {
 		obstacles.add(new Obstacle(0,height - epaisseur,width,epaisseur));
 		obstacles.add(new Obstacle(0,0,epaisseur,height));
 		obstacles.add(new Obstacle(width - epaisseur,0,epaisseur,height));
-		/*
+		
 		obstacles.add(new Obstacle(0,100,200,epaisseur));
 		obstacles.add(new Obstacle(300,350,150,epaisseur));
 		obstacles.add(new Obstacle(100,200,400,epaisseur));
@@ -35,7 +35,7 @@ public class Plateau {
 		
 
 		obstacles.add(new Obstacle(500,100,epaisseur,200));
-		obstacles.add(new Obstacle(200,350,epaisseur,100));*/
+		obstacles.add(new Obstacle(200,350,epaisseur,100));
 		
 		// On place les objectifs
 		objectifs.add(new Objectif(100,150));
@@ -60,7 +60,7 @@ public class Plateau {
 		obstacles.add(new Obstacle(width - epaisseur,0,epaisseur,height));
 		
 		int nb_mur = 0;//Outils.RAND.nextInt(4);
-		int nb_obj = Outils.RAND.nextInt(10);//Outils.RAND.nextInt(30)+3;
+		int nb_obj = 15+Outils.RAND.nextInt(10);//Outils.RAND.nextInt(30)+3;
 		
 		for (int mur =0; mur <nb_mur; mur++) {
 			if (Outils.RAND.nextBoolean())

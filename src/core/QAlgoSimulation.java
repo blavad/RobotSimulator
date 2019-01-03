@@ -17,7 +17,7 @@ public class QAlgoSimulation extends Simulation {
 	/**
 	 * Duree de l'action en seconde
 	 */
-	private static final double DUREE_ACTION  = 0.2;
+	private static final double DUREE_ACTION  = 0.05;
 	
 	/** 
 	 * Le robot du modele de Q-learning
@@ -81,7 +81,7 @@ public class QAlgoSimulation extends Simulation {
         // On cree le nouveau plateau et le nouveau robot
         if (robot.isDead() || (speed*(lastTime-firstTime)/1.e9) > DUREE_SIMUL) {
         	Debug.log.println(robot.getScore());
-        	if (episode%20==0) {
+        	if (episode%4==0) {
         		this.plateau = new Plateau();
         	}
         	this.plateau.initObjectifsPerso(1);
@@ -101,6 +101,8 @@ public class QAlgoSimulation extends Simulation {
 	 * Verifie si une collision s'est produite et mets a jour le score
 	 */
 	private void checkCollision() {
+
+		int current_time = (int)(DUREE_SIMUL-(speed*(lastTime-firstTime)/1.e9));
 		// regarde les collisions entre le robot et les objectis 
 		if (plateau.getObjectifs() != null) {
 			for (ObjetPlateau ob : plateau.getObjectifs().getObPX()) {
@@ -109,8 +111,8 @@ public class QAlgoSimulation extends Simulation {
 					if (! ((Objectif)ob).isActive(0)) {
 						((Objectif)ob).activate(0);
 						// Mesure la recompense
-						dr+= 800*800;
-						robot.addScore(1);
+						dr+= 800*800*(2-current_time/DUREE_SIMUL);
+						robot.addFoundObj();
 					}
 				}
 			}
@@ -122,8 +124,7 @@ public class QAlgoSimulation extends Simulation {
 				if (intersects(robot, (Obstacle)ob)) {
 					if (!robot.isDead()) {
 						robot.dead();
-						dr-=800*800;
-						robot.addScore(-1);
+						dr-=10000*10000*(2-current_time/DUREE_SIMUL);
 					}
 				}
 			}

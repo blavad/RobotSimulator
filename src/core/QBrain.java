@@ -23,7 +23,7 @@ public class QBrain extends IA {
 	/**
 	 * Part de d'exploration (prise d'action aleatoire )
 	 */
-	private double eps = 0.2;
+	private double eps = 0.99;
 
 	/** Constructeur
 	 * 
@@ -74,8 +74,8 @@ public class QBrain extends IA {
 		Q.get(s_final, new Matrix(Q.copy()[s_final]).argmax());
 		value = (1-QAlgoSimulation.LEARNING_RATE)*Q.get(s_init, act) + QAlgoSimulation.LEARNING_RATE * (rec+ lambda*Q.get(s_final, act2));
 		Q.set(s_init, act, value);
-		lambda *= 0.9;
-		//eps*=.9;
+		lambda *= 0.999;
+		eps*=.9999;
 	}
 	
 
