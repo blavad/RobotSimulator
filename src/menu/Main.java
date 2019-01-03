@@ -10,8 +10,14 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tools.Debug;
 
+/** Classe principale lancant l'application javaFX avec le menu principal
+ * 
+ * @author DHT
+ *
+ */
 public class Main extends Application {
 
+	/** Les boutons du menu */
 	Button button_training, button_simul;
 	
 	@Override
@@ -19,12 +25,11 @@ public class Main extends Application {
 		primaryStage.setTitle("Robot Simulator Menu");
 		primaryStage.setResizable(false);
 		
-		// On cree les objets de base de notre menu
+		// Creation du bouton pour l'entrainement par l'algorithme de Q-learning
 		button_training = new Button();
 		button_training.setText("Q-learning");
 		button_training.setPrefSize(200, 60);
 		button_training.setOnAction(new EventHandler<ActionEvent>() {
-			
 			@Override
 			public void handle(ActionEvent event) {
 				Debug.log.println("#> Lancement entrainement Q-learning");
@@ -32,11 +37,11 @@ public class Main extends Application {
 			}
 		});
 		
+		// Creation du bouton pour l'entrainement par l'algorithme genetique
 		button_simul = new Button();
 		button_simul.setText("Genetic Algorithm");
 		button_simul.setPrefSize(200, 60);
 		button_simul.setOnAction(new EventHandler<ActionEvent>() {
-			
 			@Override
 			public void handle(ActionEvent event) {
 				Debug.log.println("#> Lancement entrainement algo genetique");
@@ -54,6 +59,7 @@ public class Main extends Application {
 		
 		// On cree la scene et l'ajoute a la fenetre
         Scene scene = new Scene(menu_layout);
+        // On applique un style a notre scene depuis une feuille de style .css
         scene.getStylesheets().add(getClass().getResource("/style_menu.css").toExternalForm());
 		
         primaryStage.setScene(scene);

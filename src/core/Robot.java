@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 import action.*;
 import tools.*;
@@ -17,18 +16,29 @@ import capteur.*;
  */
 public class Robot implements Comparable {
 	
+	/** Les capteurs d'objectif du robot */
 	protected EnsembleDeCapteurs capObjectifs;
+	/** Les capteurs d'obstacle du robot */
 	protected EnsembleDeCapteurs capObstacles;
+	/** Les actions executable par le robot */
 	protected ArrayList<Executable> actions;
+	/** Le cerveau du robot */
 	protected IA brain;
 	
+	/** Position du robot sur la carte*/
 	protected Vect2 pos;
+	/** Rayon du robot */
 	protected int rayon = 10;
+	/** Angle du robot */
 	protected double angle;
+	/** Score du robot : fonction de recompense percu par celui-ci*/
 	protected double score;
-	protected boolean isDead = false;
-	protected int label;
+	/** Nombre d'objectif atteint*/
 	protected int obj_found=0;
+	/** Etat du robot (mort ou vivant)*/
+	protected boolean isDead = false;
+	/** Label associant le robot a son objectif */
+	protected int label;
 	
 	public Robot(int label) {
 		this.pos = new Vect2(50, 50);
@@ -37,32 +47,10 @@ public class Robot implements Comparable {
 		this.label = label;
 	}
 	
-	public Robot(int label, boolean geneticBrain, EnsembleDeCapteurs capObj, EnsembleDeCapteurs capObs) {
-		this(label);
-		this.capObjectifs = capObj;
-		this.capObstacles = capObs;
-		initActions();
-		if (geneticBrain)
-			this.brain = new GeneticBrain((this.capObjectifs.getSize() + this.capObstacles.getSize()),6,4,this.actions.size());
-		else 
-			this.brain = new QBrain((this.capObjectifs.getSize() + this.capObstacles.getSize()),this.actions.size(), 3);
-	}
-	
-	public Robot(Plateau plateau, boolean geneticBrain, int label) {
-		this(label);
-		this.capObjectifs = new EnsembleDeCapteurs(this, plateau.getObjectifs(),0.,0.125,0.25,0.375,0.5,0.625,0.75,0.875);
-		this.capObstacles = new EnsembleDeCapteurs(this, plateau.getObstacles(),0.,0.125,0.875);
-		initActions();
-		if (geneticBrain)
-			this.brain = new GeneticBrain((this.capObjectifs.getSize() + this.capObstacles.getSize()),6,4,this.actions.size());
-		else 
-			this.brain = new QBrain((this.capObjectifs.getSize() + this.capObstacles.getSize()),this.actions.size(), 3);
-	}
-	
 	public Robot(Plateau plateau, IA brain, int label) {
 		this(label);
 		this.capObjectifs = new EnsembleDeCapteurs(this, plateau.getObjectifs(),0.,0.125,0.25,0.375,0.5,0.625,0.75,0.875);
-		this.capObstacles = new EnsembleDeCapteurs(this, plateau.getObstacles(),0.,0.125,0.875);
+		this.capObstacles = new EnsembleDeCapteurs(this, plateau.getObstacles(),0.,0.125,0.25,0.375,0.5,0.625,0.75,0.875);
 		initActions();
 		this.brain = brain;
 	}
@@ -74,6 +62,11 @@ public class Robot implements Comparable {
 		actions.add(new Pivoter(this, -5));
 	}
 
+	/** Fait prendre une decision au robot et mets a ses parametres a jour
+	 * 
+	 * @param dt l'interpolation liee a la boucle 
+	 * @return l'action executee
+	 */
 	public int update(double dt) {
 
 		// Recupere les informations provenant des capteurs
@@ -87,6 +80,10 @@ public class Robot implements Comparable {
 		return choix;
 	}
 	
+	/** Dessine le robot sur le canva de dessin
+	 * 
+	 * @param g le canva de dessin
+	 */
 	public void draw(GraphicsContext g) {
 		/*g.setStroke(Color.RED);
 		capObstacles.draw(g);*/

@@ -3,8 +3,12 @@ package action;
 import core.Robot;
 import tools.Debug;
 
+/** Classe executable representant l'action d'avancer
+ * 
+ * @author DHT
+ *
+ */
 public class Avancer implements Executable {
-	
 	private Robot robot;
 	private double distance;
 	
@@ -18,7 +22,6 @@ public class Avancer implements Executable {
 		this.robot = robot;
 		this.distance = 1f;
 	}
-
 
 	@Override
 	public void execute(double dt) {

@@ -11,7 +11,7 @@ import tools.Outils;
 public class QBrain extends IA {
 
 	/**
-	 * Matrice Q (quality)
+	 * Matrice Q (Quality)
 	 */
 	private Matrix Q;
 	
@@ -71,6 +71,7 @@ public class QBrain extends IA {
 	public void update(int s_init, int act, int s_final, double rec) {
 		double value;
 		int act2 = 0;
+		// Mise a jour de la matrcie Q
 		Q.get(s_final, new Matrix(Q.copy()[s_final]).argmax());
 		value = (1-QAlgoSimulation.LEARNING_RATE)*Q.get(s_init, act) + QAlgoSimulation.LEARNING_RATE * (rec+ lambda*Q.get(s_final, act2));
 		Q.set(s_init, act, value);

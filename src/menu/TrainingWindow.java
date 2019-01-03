@@ -18,15 +18,25 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import tools.Debug;
 
+/** Fenetre de simulation
+ * 
+ * @author DHT
+ *
+ */
 public class TrainingWindow extends Stage {
 
-	/** */
+	/** La simulation liee a la fenetre */
 	Simulation simulation;
-	
+	/** Le canva de dessin */
 	Canvas canvas;
+	/** Le slider de vitesse pour gerer la vitesse de la simulation */
 	Slider speedSlider;
 	Label speedValue, speedText;
 	
+	/** Creation d'une fenetre de simulation
+	 * 
+	 * @param type_simul le type de simulation (ici "Q_learning" ou "Algo genetique")
+	 */
 	public TrainingWindow(String type_simul) {
 		this.setTitle(type_simul+" Simulation");
 
