@@ -7,6 +7,11 @@ import tools.Debug;
 import tools.Matrix;
 import tools.Outils;
 
+/** IA du robot utilisant la methode de l'algo genetique (il s'agit d'un simple reseau de neuronne (NN) "fully-connected")
+ * 
+ * @author DHT
+ *
+ */
 public class GeneticBrain extends IA {
 
 	/** Nombre de neuronne de chaque couche */
@@ -60,7 +65,7 @@ public class GeneticBrain extends IA {
 		int n = params.size();
 		Matrix[] o = new Matrix[n+1];
 		o[0] = new Matrix(a);
-		// Pour chaque couche de neuronne, on calcul la sommation et on la fonction d'activation
+		// Pour chaque couche de neuronne, on calcul la sommation et on applique une fonction d'activation (ici sigmoid)
 		for (int i=0; i<n; i++){
 			o[i+1] = Matrix.multiply(params.get(i),o[i]);
 			o[i+1] = Matrix.sigmoid(o[i+1]);
@@ -88,7 +93,7 @@ public class GeneticBrain extends IA {
 		return newBrain;
 	}
 	
-	/** Mutation
+	/** Mutation aleatoire
 	 * 
 	 * @param brain2 
 	 * @return 

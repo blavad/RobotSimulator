@@ -7,10 +7,15 @@ import tools.Debug;
 import tools.Outils;
 import tools.Vect2;
 
+/**
+ * 
+ * @author DHT
+ *
+ */
 public class QAlgoSimulation extends Simulation {
 	
 	/**
-	 * 
+	 * Taux d'apprentissage
 	 */
 	public static final double LEARNING_RATE = 0.2;
 
@@ -38,7 +43,6 @@ public class QAlgoSimulation extends Simulation {
 		robot = new QRobot(plateau, 0);
 	}
 
-
 	@Override
 	public void handle(long currentTime) {
 		super.handle(currentTime);
@@ -51,10 +55,8 @@ public class QAlgoSimulation extends Simulation {
 			action_en_cours = robot.update(speed*interpolation);
 			robot.setEnAction(true);
 			actionTime = System.nanoTime();
-			//Debug.log.println("Action "+action_en_cours);
 		}
 		else {
-			
 			if ((speed*(currentTime - actionTime) / 1E9)>DUREE_ACTION) {
 				dr += robot.getDistanceScore();
 				state_final = robot.getState();
@@ -66,9 +68,7 @@ public class QAlgoSimulation extends Simulation {
 				robot.update(speed*interpolation, action_en_cours);
 			}
 		}
-		
 		checkCollision();
-
 		
         // On clear le canvas pour pouvoir redessiner dessus
         drawContext.clearRect(0, 0, plateau.getWidth(), plateau.getHeight());
@@ -78,13 +78,15 @@ public class QAlgoSimulation extends Simulation {
         robot.draw(drawContext);
         drawNumEpisode();
         
-        // On cree le nouveau plateau et le nouveau robot
+        // On cree le nouveau plateau et le nouveau robot si l'episode est termine
         if (robot.isDead() || (speed*(lastTime-firstTime)/1.e9) > DUREE_SIMUL) {
-        	Debug.log.println(robot.getScore());
+        	Debug.log.println(robot.getNbFoundObj());
+        	// Changement de plateau 
         	if (episode%4==0) {
         		this.plateau = new Plateau();
         	}
         	this.plateau.initObjectifsPerso(1);
+        	// Recuperation de  l'IA precedent et creation du nouveau robot
         	IA brain = this.robot.getBrain();
         	this.robot = new QRobot(plateau, brain, 0);
     		episode++;
@@ -98,10 +100,10 @@ public class QAlgoSimulation extends Simulation {
 	}
 
 	/**
-	 * Verifie si une collision s'est produite et mets a jour le score
+	 * Verifie si une collision s'est produite et mets a jour le score en fonction
 	 */
 	private void checkCollision() {
-
+		
 		int current_time = (int)(DUREE_SIMUL-(speed*(lastTime-firstTime)/1.e9));
 		// regarde les collisions entre le robot et les objectis 
 		if (plateau.getObjectifs() != null) {
@@ -110,9 +112,9 @@ public class QAlgoSimulation extends Simulation {
 				if (d < Math.pow(robot.getRayon() + ((Objectif)ob).getRayon(), 2)) {
 					if (! ((Objectif)ob).isActive(0)) {
 						((Objectif)ob).activate(0);
+						robot.addFoundObj();
 						// Mesure la recompense
 						dr+= 800*800*(2-current_time/DUREE_SIMUL);
-						robot.addFoundObj();
 					}
 				}
 			}

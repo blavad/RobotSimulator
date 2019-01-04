@@ -16,7 +16,7 @@ public class Plateau {
 		this.obstacles = new EnsembleObjetP();
 		this.objectifs = new EnsembleObjetP();		
 		
-		initPlateau();
+		initRandomPlateau();
 	}
 	
 	public void initPlateau() {

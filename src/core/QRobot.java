@@ -9,16 +9,21 @@ import capteur.Capteur;
 import capteur.EnsembleDeCapteurs;
 import javafx.scene.canvas.GraphicsContext;
 
+/** Classe du robot utilisant la methode du Q-learning
+ * 
+ * @author DHT
+ *
+ */
 public class QRobot extends Robot {
 	
-	/** Nombre d'etat pas capteur */
+	/** Nombre d'etat pas capteur (Proche, Moyennement eloigne et eloigne)*/
 	public static final int NUM_STATE_PER_CAPT = 3;
 	
 	/** Etat du robot (=etat global des capteurs) */
 	int state =0;
 
 	/**
-	 * Vrai si le robot est en train d'executer une action
+	 * Vrai si le robot est en train d'executer une action (= changement d'etat en cours)
 	 */
 	private boolean enAction = false;
 	
@@ -38,6 +43,9 @@ public class QRobot extends Robot {
 		this.brain = brain;
 	}
 	
+	/**
+	 * Initialise les actions du robot
+	 */
 	private void initActions() {
 		this.actions = new ArrayList<Executable>();
 		actions.add(new Avancer(this, 10));
@@ -63,7 +71,7 @@ public class QRobot extends Robot {
 		super.draw(g);
 	}
 	
-	/**
+	/** Recupere l'etat du robot, celui-ci est compris entre 0 et NUM_STATE_PER_CAPT^nb_capteur
 	 * 
 	 * @return l'etat du robot
 	 */
@@ -107,11 +115,20 @@ public class QRobot extends Robot {
 		return this.enAction;
 	}
 	
+	/**
+	 * 
+	 * @return la fonction de recompense percu par le robot
+	 */
 	public double getDistanceScore() {
+		// rate représente l'importance de chaque partie
 		double rate = .5;
 		return 1.*(rate*Math.pow((Capteur.DEFAULT_VAL-this.capObjectifs.getCapteur(0).getValue()),2)-(1-rate)*(Math.pow(Capteur.DEFAULT_VAL-this.capObstacles.getCapteur(0).getValue(),2)));
 	}
 
+	/** Met le robot dans l'etat ACTION_EN_COURS ou desactive cet etat
+	 * 
+	 * @param b 
+	 */
 	public void setEnAction(boolean b) {
 		this.enAction = b;
 	}

@@ -10,6 +10,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+/** Classe du robot de l'algo genetiqe, celui ci a donc un reseau de neuronne pour cerveau dont les coefficients representent les genes du robot 
+ * 
+ * @author DHT
+ *
+ */
 public class GeneticRobot extends Robot {
 	
 	public GeneticRobot(int label) {
@@ -39,7 +44,7 @@ public class GeneticRobot extends Robot {
 		super.draw(g);
 		g.setFill(Color.BROWN);
 		g.setFont(new Font("SansSerif", 15));
-		g.fillText(""+(int) score+"", pos.x - rayon , pos.y - rayon);
+		g.fillText(""+(int) getNbFoundObj()+"", pos.x - rayon , pos.y - rayon);
 	}
 	
 }

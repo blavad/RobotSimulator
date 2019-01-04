@@ -3,6 +3,11 @@ package action;
 import core.Robot;
 import tools.Outils;
 
+/** Classe executable representant l'action de pivoter
+ * 
+ * @author DHT
+ *
+ */
 public class Pivoter implements Executable {
 
 	private Robot robot;

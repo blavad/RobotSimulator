@@ -19,16 +19,23 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import tools.Debug;
 
+/** Fenetre de simulation
+ * 
+ * @author DHT
+ *
+ */
 public class TrainingWindow extends Stage {
 
-	/** */
+	/** La simulation liee a la fenetre */
 	Simulation simulation;
-	
+	/** Le canva de dessin */
 	Canvas canvas;
+	/** Le slider de vitesse pour gerer la vitesse de la simulation */
 	Slider speedSlider;
 	Label speedValue, speedText;
 	
 	public TrainingWindow(TypeSimu type_simul) {
+  
 		this.setTitle(type_simul+" Simulation");
 
         // On cree les objets de base de notre fenêtre de simulation

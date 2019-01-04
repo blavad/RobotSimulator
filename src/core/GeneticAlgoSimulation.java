@@ -43,6 +43,7 @@ public class GeneticAlgoSimulation extends Simulation {
         
         // On cree le nouveau plateau et la nouvelle population 
         if (population.allDead() || (speed*(lastTime-firstTime)/1.e9) > DUREE_SIMUL) {
+        	// On creer un nouveay plateau
         	if (generation%4==0) {
         		this.plateau = new Plateau();
         	}
@@ -55,14 +56,6 @@ public class GeneticAlgoSimulation extends Simulation {
             }
     		firstTime = System.nanoTime();
         }
-	}
-	
-	private void drawNumGeneration() {
-		 drawContext.setFill(Color.WHITE);
-		 drawContext.fillRect(0.7*plateau.getWidth(), 0.9*plateau.getHeight(), 0.29*plateau.getWidth(), 0.1*plateau.getHeight());
-		 drawContext.setFill(Color.BLUE);
-		 drawContext.setFont(new Font("SansSerif", 30));
-		 drawContext.fillText("Generation "+ generation , 0.7*plateau.getWidth(), 0.99*plateau.getHeight());
 	}
 	
 	private void checkCollision() {
@@ -109,6 +102,15 @@ public class GeneticAlgoSimulation extends Simulation {
 		 
 		    float cornerDistance_sq = (float) (Math.pow(circleDistance.x - rect.getWidth()/2, 2) + Math.pow(circleDistance.y - rect.getHeight()/2, 2));
 		    return (cornerDistance_sq <= (circle.getRayon() * circle.getRayon()));
+	}
+
+	
+	private void drawNumGeneration() {
+		 drawContext.setFill(Color.WHITE);
+		 drawContext.fillRect(0.7*plateau.getWidth(), 0.9*plateau.getHeight(), 0.29*plateau.getWidth(), 0.1*plateau.getHeight());
+		 drawContext.setFill(Color.BLUE);
+		 drawContext.setFont(new Font("SansSerif", 30));
+		 drawContext.fillText("Generation "+ generation , 0.7*plateau.getWidth(), 0.99*plateau.getHeight());
 	}
 
 	@Override

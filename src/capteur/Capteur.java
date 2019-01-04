@@ -11,13 +11,20 @@ import core.Robot;
 import javafx.scene.canvas.GraphicsContext;
 import tools.Debug;
 
-
+/** Classe de capteur d'objet
+ * 
+ * @author DHT
+ *
+ */
 public class Capteur {
 	
+	/** Valeur par default du capteur */
 	public static final double DEFAULT_VAL = 800;
-	
+	/** Robot d'appartenance du capteur */
 	private Robot robot;
+	/** Angle relatif du capteur (par rapport a l'angle du robot)*/
 	private double angleRelatif;
+	/** Distance percu par le capteur */
 	private double distance;
 	
 	public Capteur(Robot robot, double angleRelatif) {
@@ -25,6 +32,10 @@ public class Capteur {
 		this.angleRelatif = angleRelatif;
 	}
 	
+	/** Mets a jour le capteur selon les objetx potentiellement captables
+	 * 
+	 * @param obP l'ensemble d'objet potentiellement captes
+	 */
 	public void update(EnsembleObjetP obP) {
 		
 		double dist = DEFAULT_VAL;
@@ -56,10 +67,18 @@ public class Capteur {
 		this.distance = dist;
 	}
 
+	/** Getter de la valeur du capteur
+	 * 
+	 * @return la valeur du capteur
+	 */
 	public double getValue(){
 		return this.distance;
 	}
 
+	/** Dessine le capteur si la distance n'est pas celle par default
+	 *  
+	 * @param g le canva de dessin
+	 */
 	public void draw(GraphicsContext g) {
 		double x_inter, y_inter;
 		x_inter = robot.getPos().x + distance*Math.cos(robot.getAngle()+angleRelatif);
