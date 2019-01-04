@@ -3,6 +3,7 @@ package menu;
 import core.GeneticAlgoSimulation;
 import core.QAlgoSimulation;
 import core.Simulation;
+import core.TypeSimu;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -27,7 +28,7 @@ public class TrainingWindow extends Stage {
 	Slider speedSlider;
 	Label speedValue, speedText;
 	
-	public TrainingWindow(String type_simul) {
+	public TrainingWindow(TypeSimu type_simul) {
 		this.setTitle(type_simul+" Simulation");
 
         // On cree les objets de base de notre fenêtre de simulation
@@ -40,10 +41,18 @@ public class TrainingWindow extends Stage {
         GraphicsContext drawContext = canvas.getGraphicsContext2D();
 
 		// On cree la simulation et on lui donne en parametre le canvas de dessin
-        if (type_simul.equals("Q-Learning"))
-        	this.simulation = new QAlgoSimulation(drawContext);
-        else 
+        switch (type_simul) {
+		case GENETIC:
         	this.simulation = new GeneticAlgoSimulation(drawContext);
+			break;
+		case QLEARNIG:
+        	this.simulation = new QAlgoSimulation(drawContext);
+			break;
+		default:
+        	this.simulation = new GeneticAlgoSimulation(drawContext);
+			break;
+        
+        }
         
         // On cree le slider de vitesse
         speedText = new Label("Speed");
