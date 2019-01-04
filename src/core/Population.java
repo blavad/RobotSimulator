@@ -139,6 +139,9 @@ public class Population {
 	public Robot getRobot(int num) {
 		return this.population.get(num);
 	}
+	public ArrayList<GeneticRobot> getRobots() {
+		return this.population;
+	}
 	
 	public int getSize() {
 		return this.size;

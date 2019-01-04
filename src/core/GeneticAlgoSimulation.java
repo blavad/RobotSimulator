@@ -38,8 +38,8 @@ public class GeneticAlgoSimulation extends Simulation {
         
         population.draw(drawContext);
         
-        // On dessine le numero de la generation
-        drawNumGeneration();
+        // On dessine les informations
+        drawInfo();
         
         // On cree le nouveau plateau et la nouvelle population 
         if (population.allDead() || (speed*(lastTime-firstTime)/1.e9) > DUREE_SIMUL) {
@@ -90,12 +90,29 @@ public class GeneticAlgoSimulation extends Simulation {
 	}
 	
 	
-	private void drawNumGeneration() {
+	private void drawInfo() {
 		 drawContext.setFill(Color.WHITE);
-		 drawContext.fillRect(0.7*plateau.getWidth(), 0.9*plateau.getHeight(), 0.29*plateau.getWidth(), 0.1*plateau.getHeight());
-		 drawContext.setFill(Color.BLUE);
-		 drawContext.setFont(new Font("SansSerif", 30));
-		 drawContext.fillText("Generation "+ generation , 0.7*plateau.getWidth(), 0.99*plateau.getHeight());
+		 //drawContext.fillRect(0.7*plateau.getWidth(), 0.94*plateau.getHeight(), 0.29*plateau.getWidth(), 0.06*plateau.getHeight());
+		 drawContext.setFill(Color.WHITE);
+		 drawContext.setFont(new Font("SansSerif", 20));
+		 drawContext.fillText("Generation "+ generation , 0.85*plateau.getWidth(), 0.99*plateau.getHeight());
+		 
+		 float[] res1 = obRecup();
+		 String res = "Objectifs recuperes \n  ";
+		 for (int i = 0; i <= plateau.getObjectifs().getObPX().size(); i++) {
+			 res += i + " : " + (res1[i] / population.getSize()) + "%\n  ";
+		 }
+		 drawContext.setFill(Color.BLACK);
+		 drawContext.setFont(new Font("SansSerif", 12));
+		 drawContext.fillText(res , 0.83*plateau.getWidth(), 0.08*plateau.getHeight());
+	}
+	
+	private float[] obRecup() {
+		float[] res = new float[plateau.getObjectifs().getObPX().size() + 1];
+		for (Robot r : population.getRobots()) {
+			res[r.getNbFoundObj()] += 1;
+		}
+		return res;
 	}
 
 	@Override
