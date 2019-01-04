@@ -26,7 +26,7 @@ public class GeneticAlgoSimulation extends Simulation {
 	public void handle(long currentTime) {
 		super.handle(currentTime);
 
-        // On met à jour la population
+        // On met a jour la population
         population.update(speed*interpolation);
         checkCollision();
 		
@@ -89,21 +89,6 @@ public class GeneticAlgoSimulation extends Simulation {
 		}
 	}
 	
-	private boolean intersects(Robot circle, Obstacle rect) {
-			Vect2 circleDistance = new Vect2();
-		    circleDistance.x = Math.abs(circle.getPos().x - rect.getPos().x - (float)rect.getWidth()/2);
-		    circleDistance.y = Math.abs(circle.getPos().y - rect.getPos().y - (float)rect.getHeight()/2);
-		    
-		    if (circleDistance.x > (rect.getWidth()/2 + circle.getRayon())) { return false; }
-		    if (circleDistance.y > (rect.getHeight()/2 + circle.getRayon())) { return false; }
-		 
-		    if (circleDistance.x <= (rect.getWidth()/2)) { return true; }
-		    if (circleDistance.y <= (rect.getHeight()/2)) { return true; }
-		 
-		    float cornerDistance_sq = (float) (Math.pow(circleDistance.x - rect.getWidth()/2, 2) + Math.pow(circleDistance.y - rect.getHeight()/2, 2));
-		    return (cornerDistance_sq <= (circle.getRayon() * circle.getRayon()));
-	}
-
 	
 	private void drawNumGeneration() {
 		 drawContext.setFill(Color.WHITE);
