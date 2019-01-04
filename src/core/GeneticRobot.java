@@ -23,8 +23,7 @@ public class GeneticRobot extends Robot {
 
 	public GeneticRobot(Plateau plateau, int label) {
 		this(label);
-		this.capObjectifs = new EnsembleDeCapteurs(this, plateau.getObjectifs(),0.,0.125,0.25,0.375,0.5,0.625,0.75,0.875);
-		this.capObstacles = new EnsembleDeCapteurs(this, plateau.getObstacles(),0.,0.125,0.875);
+		initCapteurs(plateau);
 		initActions();
 		this.brain = new GeneticBrain((this.capObjectifs.getSize() + this.capObstacles.getSize()),6,4,this.actions.size());
 	}
