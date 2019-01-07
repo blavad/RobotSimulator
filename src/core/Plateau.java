@@ -75,8 +75,10 @@ public class Plateau {
 				obstacles.add(new Obstacle(Outils.RAND.nextInt(this.width),Outils.RAND.nextInt(this.height),epaisseur,50+Outils.RAND.nextInt(this.height/4)));
 		}
 		
-		for (int obj= 0; obj <nb_obj; obj++) {
-			objectifs.add(new Objectif(Outils.RAND.nextInt(this.width-2*epaisseur-4*(new Objectif(0, 0)).getRayon())+2*(new Objectif(0, 0)).getRayon(),Outils.RAND.nextInt(this.height-2*epaisseur-4*(new Objectif(0, 0)).getRayon())+2*(new Objectif(0, 0)).getRayon()));
+		for (int obj= 0; obj < nb_obj; obj++) {
+			objectifs.add(new Objectif(
+					2 * epaisseur + 1 * Objectif.RAYON + Outils.RAND.nextInt(this.width - 4 * epaisseur - 2 * Objectif.RAYON) ,
+					2 * epaisseur + 1 * Objectif.RAYON + Outils.RAND.nextInt(this.height- 4 * epaisseur - 2* Objectif.RAYON)));
 		}
 	}
 	

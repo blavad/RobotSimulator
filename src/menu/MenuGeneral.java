@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tools.Debug;
+import tools.Outils;
 
 public class MenuGeneral {
 
@@ -30,7 +31,7 @@ public class MenuGeneral {
 			@Override
 			public void handle(ActionEvent event) {
 				Debug.log.println("#> Lancement entrainement Q-learning");
-				new TrainingWindow(TypeSimu.QLEARNIG);
+				new TrainingWindow(TypeSimu.QLEARNIG, null);
 			}
 		});
 	
@@ -43,7 +44,7 @@ public class MenuGeneral {
 			@Override
 			public void handle(ActionEvent event) {
 				Debug.log.println("#> Lancement entrainement algo genetique");
-				new TrainingWindow(TypeSimu.GENETIC);
+				new TrainingWindow(TypeSimu.GENETIC, null);
 			
 			}
 		});
@@ -57,7 +58,8 @@ public class MenuGeneral {
 			@Override
 			public void handle(ActionEvent event) {
 				Debug.log.println("#> Lancement test IA");
-				new Fenetre();
+				//new Fenetre();
+				new TrainingWindow(TypeSimu.TESTIA, Outils.loadGBrain("res/ia/genetic/test"));
 			}
 		});
 	

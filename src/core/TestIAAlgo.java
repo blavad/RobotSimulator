@@ -30,8 +30,8 @@ public class TestIAAlgo extends Simulation {
 	private int action_en_cours, state_init, state_final;
 	private long actionTime;
 	
-	public TestIAAlgo(GraphicsContext drawContext, String name, IA ia) {
-		super(drawContext, name);
+	public TestIAAlgo(GraphicsContext drawContext, IA ia) {
+		super(drawContext, "");
 		plateau.initObjectifsPerso(1);
 		if (ia instanceof QBrain) robot = new QRobot(plateau, (QBrain)ia, 0);
 		else if (ia instanceof GeneticBrain) robot = new GeneticRobot(plateau, (GeneticBrain)ia, 0);
@@ -56,15 +56,13 @@ public class TestIAAlgo extends Simulation {
         
         // On cree le nouveau plateau et le nouveau robot si l'episode est termine
         if (robot.isDead() || (speed*(lastTime-firstTime)/1.e9) > DUREE_SIMUL) {
-        	Debug.log.println(robot.getNbFoundObj());
+        	//Debug.log.println(robot.getNbFoundObj());
         	// Changement de plateau 
         	if (episode%4==0) {
         		this.plateau = new Plateau();
         	}
         	this.plateau.initObjectifsPerso(1);
-        	// Recuperation de  l'IA precedent et creation du nouveau robot
-        	IA brain = this.robot.getBrain();
-        	this.robot = new QRobot(plateau, brain, 0);
+        	robot = new Robot(plateau, robot.getBrain(), 0);
     		episode++;
     		if (isFinished()) {
             	Debug.log.println("#> Fin de la simulation");
@@ -123,8 +121,7 @@ public class TestIAAlgo extends Simulation {
 	}
 	
 	public void saveIA() {
-		Outils.saveQBrain((QBrain)robot.getBrain(), "res/ia/q/" + name);
-    	Debug.log.println("#> Sauvegarde de la meilleure IA reussie");
+		
 	}
 
 }
