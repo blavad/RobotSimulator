@@ -15,6 +15,7 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import core.TypeSimu;
+import javafx.application.Platform;
 import tools.Debug;
 import tools.Outils;
  
@@ -51,7 +52,7 @@ public class Fenetre extends JFrame {
     this.racine.add(q_ia);
 
     // Hierarchie contenant les fichiers d'algo genetique
-    File genetic_folder = new File(getClass().getResource("/ia/genetic/").getFile());
+    File genetic_folder = new File(getClass().getResource("/ia/genetic/").getPath());
     DefaultMutableTreeNode genetic_ia = new DefaultMutableTreeNode("genetic");
     try {
     	for(File nom : genetic_folder.listFiles()){
@@ -124,7 +125,7 @@ class AnnulerControleur implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Debug.log.println("Fermeture fenetre " + fenetre.getTitle());
-		this.fenetre.setVisible(false);
+		this.fenetre.dispose();
 	}
 }
 
@@ -144,21 +145,28 @@ class LancerControleur implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		DefaultMutableTreeNode mon_ia = (DefaultMutableTreeNode)fenetre.arbre.getLastSelectedPathComponent();
-		DefaultMutableTreeNode mon_type_ia;
-		String s = mon_ia.toString();
-		if (!s.isEmpty() && s.charAt(s.length()-1)!='/') {
-			mon_type_ia = (DefaultMutableTreeNode) mon_ia.getParent();
-			s = mon_type_ia.toString()+ "/" + s;	
-		
-		s =  getClass().getResource("/ia/").getFile() + s;
-		Debug.log.println("Load "+s);
-		if (mon_type_ia.toString().equals("q"))
-			new TrainingWindow(TypeSimu.TESTIA, Outils.loadQBrain(s));
-		else 
-			new TrainingWindow(TypeSimu.TESTIA, Outils.loadGBrain(s));
-			
-		}
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				DefaultMutableTreeNode mon_ia = (DefaultMutableTreeNode)fenetre.arbre.getLastSelectedPathComponent();
+				DefaultMutableTreeNode mon_type_ia;
+					
+				
+				String s = mon_ia.toString();
+				if (!s.isEmpty() && s.charAt(s.length()-1)!='/') {
+					
+					mon_type_ia = (DefaultMutableTreeNode) mon_ia.getParent();
+					s = mon_type_ia.toString()+ "/" + s;	
+					s =  getClass().getResource("/ia/").getPath() + s;
+					Debug.log.println("Load "+s);
+					if (mon_type_ia.toString().equals("q"))
+						new TrainingWindow(TypeSimu.TESTIA, Outils.loadQBrain(s));
+					else 
+						new TrainingWindow(TypeSimu.TESTIA, Outils.loadGBrain(s));	
+					fenetre.dispose();
+				}
+	        }
+			});
 	}
 }
 	

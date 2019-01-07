@@ -147,7 +147,7 @@ public class QAlgoSimulation extends Simulation {
 	}
 	
 	public void saveIA() {
-		Outils.saveQBrain((QBrain)robot.getBrain(), "res/ia/q/" + name);
+		Outils.saveQBrain((QBrain)robot.getBrain(), "bin/ia/q/" + name);
     	Debug.log.println("#> Sauvegarde de la meilleure IA reussie");
 	}
 

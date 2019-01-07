@@ -58,8 +58,7 @@ public class MenuGeneral {
 			@Override
 			public void handle(ActionEvent event) {
 				Debug.log.println("#> Lancement test IA");
-				//new Fenetre();
-				new TrainingWindow(TypeSimu.TESTIA, Outils.loadGBrain("res/ia/genetic/test"));
+				new Fenetre();
 			}
 		});
 	

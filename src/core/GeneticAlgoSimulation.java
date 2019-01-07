@@ -69,7 +69,7 @@ public class GeneticAlgoSimulation extends Simulation {
 	public void saveIA() {
 		// Tri la population par ordre decroissant de score
 		Collections.sort(population.getRobots());
-		Outils.saveGBrain((GeneticBrain)population.getRobot(0).getBrain(), "res/ia/genetic/" + name);
+		Outils.saveGBrain((GeneticBrain)population.getRobot(0).getBrain(), "bin/ia/genetic/" + name);
     	Debug.log.println("#> Sauvegarde de la meilleure IA reussie");
 	}
 	
