@@ -1,5 +1,7 @@
 package menu;
 
+import java.util.Optional;
+
 import core.GeneticAlgoSimulation;
 import core.QAlgoSimulation;
 import core.Simulation;
@@ -13,6 +15,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -35,8 +38,22 @@ public class TrainingWindow extends Stage {
 	Label speedValue, speedText;
 	
 	public TrainingWindow(TypeSimu type_simul) {
-  
-		this.setTitle(type_simul+" Simulation");
+		String simuName;
+		
+		
+		TextInputDialog inDialog = new TextInputDialog("name");
+		inDialog.setTitle("Simulation");
+		//inDialog.setHeaderText("Simulation name");
+		inDialog.setContentText("Name :");
+		Optional<String> textIn = inDialog.showAndWait();
+		//--- Get response value (traditional way)
+		if (textIn.isPresent()) {
+			simuName = textIn.get();
+		}
+		else simuName = "NameAuto";
+
+		
+		this.setTitle(type_simul + simuName);
 
         // On cree les objets de base de notre fenêtre de simulation
         Group root = new Group();
@@ -50,13 +67,13 @@ public class TrainingWindow extends Stage {
 		// On cree la simulation et on lui donne en parametre le canvas de dessin
         switch (type_simul) {
 		case GENETIC:
-        	this.simulation = new GeneticAlgoSimulation(drawContext);
+        	this.simulation = new GeneticAlgoSimulation(drawContext, simuName);
 			break;
 		case QLEARNIG:
-        	this.simulation = new QAlgoSimulation(drawContext);
+        	this.simulation = new QAlgoSimulation(drawContext, simuName);
 			break;
 		default:
-        	this.simulation = new GeneticAlgoSimulation(drawContext);
+        	this.simulation = new GeneticAlgoSimulation(drawContext, simuName);
 			break;
         
         }
@@ -95,6 +112,7 @@ public class TrainingWindow extends Stage {
         this.setOnCloseRequest(new EventHandler<WindowEvent>() {
 	          public void handle(WindowEvent we) {
 	        	  Debug.log.println("#> Fin de la simulation");
+	        	  simulation.saveIA();
 	        	  simulation.stop();
 	          }
 		});    

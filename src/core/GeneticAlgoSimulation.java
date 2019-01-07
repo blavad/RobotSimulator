@@ -1,5 +1,8 @@
 package core;
 
+import java.util.Collections;
+
+import capteur.Capteur;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -16,10 +19,10 @@ public class GeneticAlgoSimulation extends Simulation {
 	private int generation = 1;
 
 	
-	public GeneticAlgoSimulation(GraphicsContext drawContext) {
-		super(drawContext);
+	public GeneticAlgoSimulation(GraphicsContext drawContext, String name) {
+		super(drawContext, name);
 		plateau.initObjectifsPerso(Population.STD_SIZE);
-		population = new Population(plateau, Population.STD_SIZE, 0.05);
+		population = new Population(plateau, Population.STD_SIZE, 0.03);
 	}
 	
 	@Override
@@ -29,7 +32,7 @@ public class GeneticAlgoSimulation extends Simulation {
         // On met a jour la population
         population.update(speed*interpolation);
         checkCollision();
-		
+        
         // On clear le canvas pour pouvoir redessiner dessus
         drawContext.clearRect(0, 0, plateau.getWidth(), plateau.getHeight());
 
@@ -43,6 +46,9 @@ public class GeneticAlgoSimulation extends Simulation {
         
         // On cree le nouveau plateau et la nouvelle population 
         if (population.allDead() || (speed*(lastTime-firstTime)/1.e9) > DUREE_SIMUL) {
+        	// Sauvegarde les donnees dans un fichier texte
+        	Outils.saveGResults(population.getRobots(), "donnees/" + name + ".txt", plateau.getObjectifs().getObPX().size());
+        	
         	// On creer un nouveay plateau
         	if (generation%4==0) {
         		this.plateau = new Plateau();
@@ -52,10 +58,19 @@ public class GeneticAlgoSimulation extends Simulation {
     		generation++;
     		if (isFinished()) {
             	Debug.log.println("#> Fin de la simulation");
+            	this.saveIA();
             	this.stop();
             }
     		firstTime = System.nanoTime();
         }
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void saveIA() {
+		// Tri la population par ordre decroissant de score
+		Collections.sort(population.getRobots());
+		Outils.saveGBrain((GeneticBrain)population.getRobot(0).getBrain(), "res/ia/genetic/" + name);
+    	Debug.log.println("#> Sauvegarde de la meilleure IA reussie");
 	}
 	
 	private void checkCollision() {
@@ -87,6 +102,8 @@ public class GeneticAlgoSimulation extends Simulation {
 				}
 			}
 		}
+		
+		
 	}
 	
 	

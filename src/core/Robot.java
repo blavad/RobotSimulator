@@ -140,6 +140,9 @@ public class Robot implements Comparable {
 	
 	public int getLabel() {return this.label;}
 	
+	public EnsembleDeCapteurs getCapObjectifs() { return this.capObjectifs; }
+	public EnsembleDeCapteurs getCapObstacles() { return this.capObstacles; }
+	
 	public void addFoundObj() {
 		this.obj_found++;
 	}

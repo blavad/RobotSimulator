@@ -1,5 +1,7 @@
 package core;
 
+import java.io.Serializable;
+
 import capteur.EnsembleDeCapteurs;
 import tools.Debug;
 import tools.Matrix;
@@ -8,7 +10,7 @@ import tools.Outils;
 /*
  * IA du robot utilisant la methode de Q-learning
  */
-public class QBrain extends IA {
+public class QBrain extends IA implements Serializable {
 
 	/**
 	 * Matrice Q (Quality)

@@ -18,7 +18,7 @@ public abstract class Simulation extends AnimationTimer {
 	public static final double SPEED_INIT = 1.0;
 	
 	/** Duree de chaque simulation en secondes */
-	public static final double DUREE_SIMUL = 50.;
+	public static final double DUREE_SIMUL = 100.;
 	
 	/** Nombre de generation maximale avant arret de la phase d'entrainement */
 	public static final int MAX_EPISODE = 1000;
@@ -29,6 +29,9 @@ public abstract class Simulation extends AnimationTimer {
 	/** Le plateau avec tous les obstacles et objectifs */
 	protected Plateau plateau;
 	
+	/** Nom de la simulation */
+	protected String name;
+	
 	/** Parametres temporaires  */
 	protected double interpolation;
 	protected long lastTime;
@@ -37,8 +40,9 @@ public abstract class Simulation extends AnimationTimer {
     /** Vitesse d'execution de la simulation */
 	protected double speed;
 
-	public Simulation(GraphicsContext drawContext) {
+	public Simulation(GraphicsContext drawContext, String name) {
 		this.drawContext = drawContext;
+		this.name = name;
 		plateau = new Plateau();
 		this.speed = SPEED_INIT;
 		
@@ -69,6 +73,8 @@ public abstract class Simulation extends AnimationTimer {
 	}
 
 	
+	public String getName() { return this.name; }
+	
 	public double getSpeed() {
 		return speed;
 	}
@@ -78,6 +84,6 @@ public abstract class Simulation extends AnimationTimer {
 	}
 
 	public abstract boolean isFinished();
-	
+	public abstract void saveIA();
 	
 }
