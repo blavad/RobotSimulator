@@ -47,12 +47,29 @@ public class Robot implements Comparable {
 		this.label = label;
 	}
 	
+	public Robot(int label, EnsembleDeCapteurs capObj, EnsembleDeCapteurs capObs) {
+		this(label);
+		this.capObjectifs = capObj;
+		this.capObstacles = capObs;
+		initActions();
+	}
+	
+	public Robot(Plateau plateau, int label) {
+		this(label);
+		initCapteurs(plateau);
+		initActions();
+	}
+	
 	public Robot(Plateau plateau, IA brain, int label) {
 		this(label);
-		this.capObjectifs = new EnsembleDeCapteurs(this, plateau.getObjectifs(),0.,0.125,0.25,0.375,0.5,0.625,0.75,0.875);
-		this.capObstacles = new EnsembleDeCapteurs(this, plateau.getObstacles(),0.,0.125,0.25,0.375,0.5,0.625,0.75,0.875);
+		initCapteurs(plateau);
 		initActions();
 		this.brain = brain;
+	}
+	
+	protected void initCapteurs(Plateau plateau) {
+		this.capObjectifs = new EnsembleDeCapteurs(this, plateau.getObjectifs(),0.,0.125,0.25,0.375,0.5,0.625,0.75,0.875);
+		this.capObstacles = new EnsembleDeCapteurs(this, plateau.getObstacles(),0.,0.125,0.875);
 	}
 	
 	private void initActions() {
@@ -87,10 +104,9 @@ public class Robot implements Comparable {
 	public void draw(GraphicsContext g) {
 		/*g.setStroke(Color.RED);
 		capObstacles.draw(g);*/
-		
-		
+	
 		g.setStroke(Color.GREEN);
-		capObjectifs.draw(g);
+		if (!isDead) capObjectifs.draw(g);
 		
 		Color c = isDead() ? new Color(1., 0., 0., 1.) : new Color(0., 0., 1., 1.);
 		g.setFill(c);

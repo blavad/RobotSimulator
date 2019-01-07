@@ -26,7 +26,7 @@ public class GeneticAlgoSimulation extends Simulation {
 	public void handle(long currentTime) {
 		super.handle(currentTime);
 
-        // On met à jour la population
+        // On met a jour la population
         population.update(speed*interpolation);
         checkCollision();
 		
@@ -38,8 +38,8 @@ public class GeneticAlgoSimulation extends Simulation {
         
         population.draw(drawContext);
         
-        // On dessine le numero de la generation
-        drawNumGeneration();
+        // On dessine les informations
+        drawInfo();
         
         // On cree le nouveau plateau et la nouvelle population 
         if (population.allDead() || (speed*(lastTime-firstTime)/1.e9) > DUREE_SIMUL) {
@@ -89,34 +89,37 @@ public class GeneticAlgoSimulation extends Simulation {
 		}
 	}
 	
-	private boolean intersects(Robot circle, Obstacle rect) {
-			Vect2 circleDistance = new Vect2();
-		    circleDistance.x = Math.abs(circle.getPos().x - rect.getPos().x - (float)rect.getWidth()/2);
-		    circleDistance.y = Math.abs(circle.getPos().y - rect.getPos().y - (float)rect.getHeight()/2);
-		    
-		    if (circleDistance.x > (rect.getWidth()/2 + circle.getRayon())) { return false; }
-		    if (circleDistance.y > (rect.getHeight()/2 + circle.getRayon())) { return false; }
-		 
-		    if (circleDistance.x <= (rect.getWidth()/2)) { return true; }
-		    if (circleDistance.y <= (rect.getHeight()/2)) { return true; }
-		 
-		    float cornerDistance_sq = (float) (Math.pow(circleDistance.x - rect.getWidth()/2, 2) + Math.pow(circleDistance.y - rect.getHeight()/2, 2));
-		    return (cornerDistance_sq <= (circle.getRayon() * circle.getRayon()));
-	}
-
 	
-	private void drawNumGeneration() {
+	private void drawInfo() {
 		 drawContext.setFill(Color.WHITE);
-		 drawContext.fillRect(0.7*plateau.getWidth(), 0.9*plateau.getHeight(), 0.29*plateau.getWidth(), 0.1*plateau.getHeight());
-		 drawContext.setFill(Color.BLUE);
-		 drawContext.setFont(new Font("SansSerif", 30));
-		 drawContext.fillText("Generation "+ generation , 0.7*plateau.getWidth(), 0.99*plateau.getHeight());
+		 drawContext.setFill(Color.WHITE);
+		 drawContext.setFont(new Font("SansSerif", 20));
+		 drawContext.fillText("Generation "+ generation , 0.80*plateau.getWidth(), 0.99*plateau.getHeight());
+		 
+		 float[] res1 = obRecup();
+		 String res = "Objectifs recuperes \n  ";
+		 for (int i = 0; i <= plateau.getObjectifs().getObPX().size(); i++) {
+			 res += i + " : " + (100 * res1[i] / population.getSize()) + "%\n  ";
+		 }
+		 drawContext.setFill(Color.BLACK);
+		 drawContext.setFont(new Font("SansSerif", 12));
+		 drawContext.fillText(res , 0.83*plateau.getWidth(), 0.08*plateau.getHeight());
+	}
+	
+	private float[] obRecup() {
+		float[] res = new float[plateau.getObjectifs().getObPX().size() + 1];
+		for (Robot r : population.getRobots()) {
+			res[r.getNbFoundObj()] += 1;
+		}
+		return res;
 	}
 
 	@Override
 	public boolean isFinished() {
 		return generation>MAX_EPISODE;
 	}
+	
+	public int getGeneration() { return this.generation; }
 	
 
 }

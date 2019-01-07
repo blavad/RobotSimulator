@@ -33,8 +33,7 @@ public class QRobot extends Robot {
 
 	public QRobot(Plateau plateau, int label) {
 		this(label);
-		this.capObjectifs = new EnsembleDeCapteurs(this, plateau.getObjectifs(),0.,0.01,0.05,0.99,0.95,0.125,0.875,0.25,0.75);
-		this.capObstacles = new EnsembleDeCapteurs(this, plateau.getObstacles(),0.,0.125,0.875);
+		initCapteurs(plateau);
 		initActions();
 		this.brain = new QBrain((this.capObjectifs.getSize() + this.capObstacles.getSize()),this.actions.size(),NUM_STATE_PER_CAPT);
 	}
@@ -42,6 +41,11 @@ public class QRobot extends Robot {
 	public QRobot(Plateau plateau, IA brain, int label) {
 		this(plateau, label);
 		this.brain = brain;
+	}
+	
+	protected void initCapteurs(Plateau plateau) {
+		this.capObjectifs = new EnsembleDeCapteurs(this, plateau.getObjectifs(),0.,0.01,0.05,0.99,0.95,0.125,0.875,0.001,0.999);
+		this.capObstacles = new EnsembleDeCapteurs(this, plateau.getObstacles(),0.,0.125,0.875);
 	}
 	
 	/**

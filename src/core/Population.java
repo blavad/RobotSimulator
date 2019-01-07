@@ -3,6 +3,8 @@ package core;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.xml.crypto.KeySelector.Purpose;
+
 import tools.*;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -53,6 +55,7 @@ public class Population {
 	public Population nextGeneration(Plateau plateau) {
 		this.plateau = plateau;
 		// Get the best GeneticRobots
+		Outils.saveGResults(population, "donnees/resultats.txt", plateau.getObjectifs().getObPX().size());
 		ArrayList<GeneticRobot> parents = selection();
 		Debug.log.println("Selection : "+ parents.size() +" indiv");
 		// Cross their brain
@@ -75,14 +78,14 @@ public class Population {
 		// Tri la population par ordre decroissant de score
 		Collections.sort(population);
 		String deb_fitness = "Max Fitness => ";
-		for (int i=1;i<5;i++) {
+		for (int i = 1; i < 5; i++) {
 			deb_fitness+= "(" +population.get(i-1).getScore() +","+ population.get(i-1).getNbFoundObj()+")   ";
 		}
 		Debug.log.println(deb_fitness);
 		// Selection des keep_proba pourcent meilleurs parents
 		int SIZE_PARENTS = (int)(this.keep_proba*this.size);
 		ArrayList<GeneticRobot> parents = new ArrayList<GeneticRobot>();
-		for (int i=0; i<SIZE_PARENTS; i++) {
+		for (int i = 0; i < SIZE_PARENTS; i++) {
 			parents.add(new GeneticRobot(this.plateau, population.get(i).getBrain(),i));
 		}
 		return parents;
@@ -138,6 +141,9 @@ public class Population {
 	
 	public Robot getRobot(int num) {
 		return this.population.get(num);
+	}
+	public ArrayList<GeneticRobot> getRobots() {
+		return this.population;
 	}
 	
 	public int getSize() {
