@@ -1,30 +1,33 @@
 package menu;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
- 
+import java.rmi.RemoteException;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTree;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
 
 import tools.Debug;
+import tools.Outils;
  
 public class Fenetre extends JFrame {
  
-  private JTree arbre;
+  public JTree arbre;
   private DefaultMutableTreeNode racine;
-  private Panneau panneau = new Panneau();
- 
+  private JButton annuler = new JButton("Annuler"), lancer = new JButton("Lancer");
+  
   public Fenetre(){
-    this.setSize(500, 200);
+    this.setSize(200, 200);
     this.setLocationRelativeTo(null);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.setTitle("Les arbres");
+    this.setTitle("Choix IA");
     //On invoque la méthode de construction de notre arbre
     listRoot();
  
@@ -32,74 +35,42 @@ public class Fenetre extends JFrame {
   }
  
   private void listRoot(){
- 
-    this.racine = new DefaultMutableTreeNode("IA");
- 
+	  
+	  
+    this.racine = new DefaultMutableTreeNode("ia");
+    // Hierarchie contenant les fichiers de Q-learning
     File q_folder = new File(getClass().getResource("/ia/q/").getFile());
-    DefaultMutableTreeNode q_ia = new DefaultMutableTreeNode("Q");
+    DefaultMutableTreeNode q_ia = new DefaultMutableTreeNode("q");
     try {
     	for(File nom : q_folder.listFiles()){
     		DefaultMutableTreeNode node = new DefaultMutableTreeNode(nom.getName());
     		q_ia.add(this.listFile(nom, node));
     	}
-    } catch (NullPointerException e) {}
-    
+    } catch (NullPointerException e) {}   
     this.racine.add(q_ia);
-    
-    
+
+    // Hierarchie contenant les fichiers d'algo genetique
     File genetic_folder = new File(getClass().getResource("/ia/genetic/").getFile());
-    DefaultMutableTreeNode genetic_ia = new DefaultMutableTreeNode("Genetic");
+    DefaultMutableTreeNode genetic_ia = new DefaultMutableTreeNode("genetic");
     try {
     	for(File nom : genetic_folder.listFiles()){
     		DefaultMutableTreeNode node = new DefaultMutableTreeNode(nom.getName());
     		genetic_ia.add(this.listFile(nom, node));
     	}
-    } catch (NullPointerException e) {}
-    
+    } catch (NullPointerException e) {} 
     this.racine.add(genetic_ia);
-             
-    //On crée, avec notre hiérarchie, un arbre
-    arbre = new JTree(this.racine);
-    arbre.setRootVisible(false);
-    arbre.addTreeSelectionListener(new TreeSelectionListener(){
-      public void valueChanged(TreeSelectionEvent event) {
-        if(arbre.getLastSelectedPathComponent() != null){
-          File file= new File(getAbsolutePath(event.getPath()));
-          panneau.setTexte(getDescription(file));
-        }
-      }
- 
-      private String getAbsolutePath(TreePath treePath){
-        String str = "";
-        //On balaie le contenu de notre TreePath
-        for(Object name : treePath.getPath()){
-          //Si l'objet à un nom, on l'ajoute au chemin
-          if(name.toString() != null)
-            str += name.toString();
-        }
-        return str;
-      }
- 
-      /**
-      * Retourne une description d'un objet File
-      * @param file
-      * @return
-      */
-      private String getDescription(File file){
-        String str = "Chemin d'accès sur le disque : \n\t" + file.getAbsolutePath() + "\n";
-        str += (file.isFile()) ? "Je suis un fichier.\nJe fais " + file.length() + " ko\n" : "Je suis un dossier.\n";
-        str += "J'ai des droits : \n";
-        str += "\t en lecture : " + ((file.canRead()) ? "Oui;" : "Non;");
-        str += "\n\t en écriture : " + ((file.canWrite()) ? "Oui;" : "Non;");
-        return str;
-      }
-    });
-    //On crée un séparateur de conteneur pour réviser
-    JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(arbre), new JScrollPane(panneau));
-    //On place le séparateur
-    split.setDividerLocation(200);
-    //On ajoute le tout
-    this.getContentPane().add(split, BorderLayout.CENTER);
+    arbre = new JTree(racine);
+    
+    // Panel de bouton
+    JPanel panelBoutton = new JPanel();
+    panelBoutton.setLayout(new FlowLayout());
+    annuler.addActionListener(new AnnulerControleur(this));
+    panelBoutton.add(annuler);
+    lancer.addActionListener(new LancerControleur(this));
+    panelBoutton.add(lancer);
+    
+    this.getContentPane().add(new JScrollPane(arbre), BorderLayout.CENTER);
+    this.getContentPane().add(panelBoutton, BorderLayout.SOUTH);
   }
      
   private DefaultMutableTreeNode listFile(File file, DefaultMutableTreeNode node){
@@ -113,8 +84,8 @@ public class Fenetre extends JFrame {
         return new DefaultMutableTreeNode(file.getName()); 
       for(File nom : file.listFiles()){
         count++;
-        //Pas plus de 5 enfants par nœud
-        if(count < 5){
+        //Pas plus de 100 enfants par noeud
+        if(count < 100){
           DefaultMutableTreeNode subNode;
           if(nom.isDirectory()){
             subNode = new DefaultMutableTreeNode(nom.getName()+"\\");
@@ -134,3 +105,62 @@ public class Fenetre extends JFrame {
     Fenetre fen = new Fenetre();
   }
 }
+
+class AnnulerControleur implements ActionListener {
+	
+	/** La fenetre d'appel */
+	private Fenetre fenetre;
+	
+	/** Constructeur du controleur
+	 * 
+	 * @param f la fenetre liee au controleur 
+	 * 
+	 */
+	public AnnulerControleur(Fenetre f){
+		this.fenetre =f;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Debug.log.println("Fermeture fenetre " + fenetre.getTitle());
+		this.fenetre.setVisible(false);
+	}
+}
+
+class LancerControleur implements ActionListener {
+	
+	/** La fenetre d'appel */
+	private Fenetre fenetre;
+	
+	/** Constructeur du controleur
+	 * 
+	 * @param f la fenetre liee au controleur 
+	 * 
+	 */
+	public LancerControleur(Fenetre f){
+		this.fenetre =f;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		DefaultMutableTreeNode mon_ia = (DefaultMutableTreeNode)fenetre.arbre.getLastSelectedPathComponent();
+		DefaultMutableTreeNode mon_type_ia;
+		String s = mon_ia.toString();
+		if (!s.isEmpty() && s.charAt(s.length()-1)!='/') {
+			mon_type_ia = (DefaultMutableTreeNode) mon_ia.getParent();
+			s = mon_type_ia.toString()+ "/" + s;	
+		
+		s =  getClass().getResource("/ia/").getFile() + s;
+		Debug.log.println("Load "+s);
+		if (mon_type_ia.toString().equals("q"))
+			new TrainingWindow(TESTIA, Outils.loadQBrain(s));
+		else 
+			new TrainingWindow(TESTIA, Outils.loadGBrain(s));
+			
+		}
+	}
+}
+	
+	
+	
+	
