@@ -14,6 +14,7 @@ import java.util.Random;
 
 import core.GeneticBrain;
 import core.GeneticRobot;
+import core.QBrain;
 import core.Robot;
 
 public class Outils {
@@ -33,7 +34,6 @@ public class Outils {
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(ia);
 			oos.close();
-			System.out.println("Sauvegarde de l'IA reussie");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -48,7 +48,36 @@ public class Outils {
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			ia = (GeneticBrain)ois.readObject();
 			ois.close();
-			System.out.println("Chargement de l'IA reussi");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return ia;
+	}
+	
+	public static void saveQBrain(QBrain ia, String name) {
+		try {
+			FileOutputStream fos = new FileOutputStream(name);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(ia);
+			oos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static QBrain loadQBrain(String name) {
+		QBrain ia = null;
+		try {
+			FileInputStream fis = new FileInputStream(name);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			ia = (QBrain)ois.readObject();
+			ois.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

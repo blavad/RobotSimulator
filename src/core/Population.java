@@ -55,7 +55,6 @@ public class Population {
 	public Population nextGeneration(Plateau plateau) {
 		this.plateau = plateau;
 		// Get the best GeneticRobots
-		Outils.saveGResults(population, "donnees/resultats.txt", plateau.getObjectifs().getObPX().size());
 		ArrayList<GeneticRobot> parents = selection();
 		Debug.log.println("Selection : "+ parents.size() +" indiv");
 		// Cross their brain

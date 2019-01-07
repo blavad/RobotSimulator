@@ -37,8 +37,8 @@ public class QAlgoSimulation extends Simulation {
 	private int action_en_cours, state_init, state_final;
 	private long actionTime;
 	
-	public QAlgoSimulation(GraphicsContext drawContext) {
-		super(drawContext);
+	public QAlgoSimulation(GraphicsContext drawContext, String name) {
+		super(drawContext, name);
 		plateau.initObjectifsPerso(1);
 		robot = new QRobot(plateau, 0);
 	}
@@ -144,6 +144,11 @@ public class QAlgoSimulation extends Simulation {
 	@Override
 	public boolean isFinished() {
 		return episode>MAX_EPISODE;
+	}
+	
+	public void saveIA() {
+		Outils.saveQBrain((QBrain)robot.getBrain(), "res/ia/q/" + name);
+    	Debug.log.println("#> Sauvegarde de la meilleure IA reussie");
 	}
 
 }
