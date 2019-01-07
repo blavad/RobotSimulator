@@ -42,11 +42,12 @@ public class TrainingWindow extends Stage {
 	Slider speedSlider;
 	Label speedValue, speedText;
 	
-	private Button buttonNext;
 	
 	public TrainingWindow(TypeSimu type_simul, IA ia) {
 
 		String simuName = "";
+		// Si l'on entr dans une simulation d'apprentissage, l'utilisateur 
+		// doit donner un nom a celle ci afin de sauvegarder les donnees dans un fichier
 		if (type_simul == TypeSimu.GENETIC || type_simul == TypeSimu.QLEARNIG) {
 			
 			
@@ -58,10 +59,17 @@ public class TrainingWindow extends Stage {
 			//--- Get response value (traditional way)
 			if (textIn.isPresent()) {
 				simuName = textIn.get();
+				fenetreSimu(type_simul, ia, simuName);
 			}
-			else simuName = "NameAuto";
+		}
+		else {
+			fenetreSimu(type_simul, ia, simuName);
 		}
 		
+		
+	}
+	
+	private void fenetreSimu(TypeSimu type_simul, IA ia, String simuName) {
 		this.setTitle(type_simul + " " + simuName);
 
         // On cree les objets de base de notre fenetre de simulation
@@ -83,9 +91,6 @@ public class TrainingWindow extends Stage {
 			break;
 		case TESTIA:
         	this.simulation = new TestIAAlgo(drawContext, ia);
-			break;
-		default:
-        	this.simulation = new GeneticAlgoSimulation(drawContext, simuName);
 			break;
         
         }

@@ -41,8 +41,32 @@ public class TestIAAlgo extends Simulation {
 	public void handle(long currentTime) {
 		super.handle(currentTime);
 		
-		
-		robot.update(speed*interpolation);
+		if (robot instanceof QRobot) {
+		// Si le robot a fini l'action precedente, on mets a jour son etat et on realise une autre action
+			if (!((QRobot)robot).isEnAction()) {
+				dr=0;
+				state_init = ((QRobot)robot).getState();
+				// choix de l'action et execution de l'action
+				action_en_cours = robot.update(speed*interpolation);
+				((QRobot)robot).setEnAction(true);
+				actionTime = System.nanoTime();
+			}
+			else {
+				if ((speed*(currentTime - actionTime) / 1E9)>DUREE_ACTION) {
+					dr += ((QRobot)robot).getDistanceScore();
+					state_final = ((QRobot)robot).getState();
+					// Mise a jour de la matrice Q
+					((QBrain)robot.getBrain()).update(state_init, action_en_cours, state_final, dr);
+					((QRobot)robot).setEnAction(false);
+				}
+				else {
+					((QRobot)robot).update(speed*interpolation, action_en_cours);
+				}
+			}
+		}
+		else if (robot instanceof GeneticRobot) {
+			((GeneticRobot)robot).update(speed*interpolation);
+		}
 		
 		checkCollision();
 		
@@ -62,7 +86,10 @@ public class TestIAAlgo extends Simulation {
         		this.plateau = new Plateau();
         	}
         	this.plateau.initObjectifsPerso(1);
-        	robot = new Robot(plateau, robot.getBrain(), 0);
+        	// Recuperation de  l'IA precedent et creation du nouveau robot
+        	IA brain = this.robot.getBrain();
+        	if (robot instanceof QRobot) this.robot = new QRobot(plateau, brain, 0);
+        	if (robot instanceof GeneticRobot) this.robot = new GeneticRobot(plateau, brain, 0);
     		episode++;
     		if (isFinished()) {
             	Debug.log.println("#> Fin de la simulation");

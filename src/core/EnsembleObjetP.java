@@ -3,7 +3,7 @@ package core;
 import java.util.ArrayList;
 
 public class EnsembleObjetP {
-	
+
 	private ArrayList<ObjetPlateau> obPX;
 	private ArrayList<ObjetPlateau> obPY;
 	
