@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 
 public class Objectif extends ObjetPlateau{
 	
-	private int rayon = 10;
+	public static int RAYON = 10;
 	public boolean[] activate;
 	
 	
@@ -18,7 +18,7 @@ public class Objectif extends ObjetPlateau{
 		for (int i = 0; i < activate.length;i++) {
 			if (!isActive(i)) {
 				g.setFill(new Color(0., 1., 0., 1.));
-				g.fillOval((int)pos.x - rayon, (int)pos.y - rayon, rayon*2, rayon*2);
+				g.fillOval((int)pos.x - RAYON, (int)pos.y - RAYON, RAYON*2, RAYON*2);
 			}
 		}
 	}
@@ -31,7 +31,7 @@ public class Objectif extends ObjetPlateau{
 	}
 	
 	public int getRayon() {
-		 return this.rayon;
+		 return this.RAYON;
 	}
 	public boolean isActive(int i) {
 		return this.activate[i];

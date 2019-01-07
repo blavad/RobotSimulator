@@ -9,10 +9,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tools.Debug;
+import tools.Outils;
 
 public class MenuGeneral {
 
-	private Button button_training, button_simul;
+	private Button button_training, button_simul, button_test;
 	
 	public MenuGeneral(Stage primaryStage) {
 		primaryStage.setTitle("Robot Simulator Menu");
@@ -30,7 +31,7 @@ public class MenuGeneral {
 			@Override
 			public void handle(ActionEvent event) {
 				Debug.log.println("#> Lancement entrainement Q-learning");
-				new TrainingWindow(TypeSimu.QLEARNIG);
+				new TrainingWindow(TypeSimu.QLEARNIG, null);
 			}
 		});
 	
@@ -43,8 +44,22 @@ public class MenuGeneral {
 			@Override
 			public void handle(ActionEvent event) {
 				Debug.log.println("#> Lancement entrainement algo genetique");
-				new TrainingWindow(TypeSimu.GENETIC);
+				new TrainingWindow(TypeSimu.GENETIC, null);
 			
+			}
+		});
+		
+		// Bonton Genetic algo
+		button_test = new Button();
+		button_test.setText("Test IA");
+		button_test.setPrefSize(200, 60);
+		button_test.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				Debug.log.println("#> Lancement test IA");
+				//new Fenetre();
+				new TrainingWindow(TypeSimu.TESTIA, Outils.loadGBrain("res/ia/genetic/test"));
 			}
 		});
 	
@@ -54,6 +69,7 @@ public class MenuGeneral {
 		menu_layout.setPadding(new Insets(40));
 		menu_layout.getChildren().add(button_training);
 		menu_layout.getChildren().add(button_simul);
+		menu_layout.getChildren().add(button_test);
 	
 		// On cree la scene et l'ajoute a la fenetre
 	    Scene scene = new Scene(menu_layout);

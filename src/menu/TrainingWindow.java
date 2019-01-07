@@ -3,16 +3,20 @@ package menu;
 import java.util.Optional;
 
 import core.GeneticAlgoSimulation;
+import core.IA;
 import core.QAlgoSimulation;
 import core.Simulation;
+import core.TestIAAlgo;
 import core.TypeSimu;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextInputDialog;
@@ -21,6 +25,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import tools.Debug;
+import tools.Outils;
 
 /** Fenetre de simulation
  * 
@@ -37,25 +42,29 @@ public class TrainingWindow extends Stage {
 	Slider speedSlider;
 	Label speedValue, speedText;
 	
-	public TrainingWindow(TypeSimu type_simul) {
-		String simuName;
-		
-		
-		TextInputDialog inDialog = new TextInputDialog("name");
-		inDialog.setTitle("Simulation");
-		//inDialog.setHeaderText("Simulation name");
-		inDialog.setContentText("Name :");
-		Optional<String> textIn = inDialog.showAndWait();
-		//--- Get response value (traditional way)
-		if (textIn.isPresent()) {
-			simuName = textIn.get();
+	private Button buttonNext;
+	
+	public TrainingWindow(TypeSimu type_simul, IA ia) {
+
+		String simuName = "";
+		if (type_simul == TypeSimu.GENETIC || type_simul == TypeSimu.QLEARNIG) {
+			
+			
+			TextInputDialog inDialog = new TextInputDialog("name");
+			inDialog.setTitle("Simulation");
+			//inDialog.setHeaderText("Simulation name");
+			inDialog.setContentText("Name :");
+			Optional<String> textIn = inDialog.showAndWait();
+			//--- Get response value (traditional way)
+			if (textIn.isPresent()) {
+				simuName = textIn.get();
+			}
+			else simuName = "NameAuto";
 		}
-		else simuName = "NameAuto";
-
 		
-		this.setTitle(type_simul + simuName);
+		this.setTitle(type_simul + " " + simuName);
 
-        // On cree les objets de base de notre fenêtre de simulation
+        // On cree les objets de base de notre fenetre de simulation
         Group root = new Group();
         Scene scene = new Scene(root);
         this.setScene(scene);
@@ -71,6 +80,9 @@ public class TrainingWindow extends Stage {
 			break;
 		case QLEARNIG:
         	this.simulation = new QAlgoSimulation(drawContext, simuName);
+			break;
+		case TESTIA:
+        	this.simulation = new TestIAAlgo(drawContext, ia);
 			break;
 		default:
         	this.simulation = new GeneticAlgoSimulation(drawContext, simuName);
