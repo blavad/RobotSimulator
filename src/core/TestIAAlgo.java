@@ -41,7 +41,8 @@ public class TestIAAlgo extends Simulation {
 	public void handle(long currentTime) {
 		super.handle(currentTime);
 		
-		if (robot instanceof QRobot) {
+		//Si le robot est un QRobot
+		if (robot instanceof QRobot) { 
 		// Si le robot a fini l'action precedente, on mets a jour son etat et on realise une autre action
 			if (!((QRobot)robot).isEnAction()) {
 				dr=0;
@@ -64,6 +65,7 @@ public class TestIAAlgo extends Simulation {
 				}
 			}
 		}
+		//Si le robot est un GeneticRobot
 		else if (robot instanceof GeneticRobot) {
 			((GeneticRobot)robot).update(speed*interpolation);
 		}
