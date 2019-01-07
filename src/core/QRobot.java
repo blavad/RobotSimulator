@@ -43,6 +43,11 @@ public class QRobot extends Robot {
 		this.brain = brain;
 	}
 	
+	protected void initCapteurs(Plateau plateau) {
+		this.capObjectifs = new EnsembleDeCapteurs(this, plateau.getObjectifs(),0.,0.01,0.05,0.99,0.95,0.125,0.875,0.001,0.999);
+		this.capObstacles = new EnsembleDeCapteurs(this, plateau.getObstacles(),0.,0.125,0.875);
+	}
+	
 	/**
 	 * Initialise les actions du robot
 	 */

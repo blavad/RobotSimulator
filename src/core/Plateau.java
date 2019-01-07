@@ -60,7 +60,7 @@ public class Plateau {
 		obstacles.add(new Obstacle(width - epaisseur,0,epaisseur,height));
 		
 		int nb_mur = 0;//Outils.RAND.nextInt(4);
-		int nb_obj = 15+Outils.RAND.nextInt(10);//Outils.RAND.nextInt(30)+3;
+		int nb_obj = 15;//Outils.RAND.nextInt(30)+3;
 		
 		for (int mur =0; mur <nb_mur; mur++) {
 			if (Outils.RAND.nextBoolean())

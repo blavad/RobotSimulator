@@ -92,15 +92,14 @@ public class GeneticAlgoSimulation extends Simulation {
 	
 	private void drawInfo() {
 		 drawContext.setFill(Color.WHITE);
-		 //drawContext.fillRect(0.7*plateau.getWidth(), 0.94*plateau.getHeight(), 0.29*plateau.getWidth(), 0.06*plateau.getHeight());
 		 drawContext.setFill(Color.WHITE);
 		 drawContext.setFont(new Font("SansSerif", 20));
-		 drawContext.fillText("Generation "+ generation , 0.85*plateau.getWidth(), 0.99*plateau.getHeight());
+		 drawContext.fillText("Generation "+ generation , 0.80*plateau.getWidth(), 0.99*plateau.getHeight());
 		 
 		 float[] res1 = obRecup();
 		 String res = "Objectifs recuperes \n  ";
 		 for (int i = 0; i <= plateau.getObjectifs().getObPX().size(); i++) {
-			 res += i + " : " + (res1[i] / population.getSize()) + "%\n  ";
+			 res += i + " : " + (100 * res1[i] / population.getSize()) + "%\n  ";
 		 }
 		 drawContext.setFill(Color.BLACK);
 		 drawContext.setFont(new Font("SansSerif", 12));
@@ -119,6 +118,8 @@ public class GeneticAlgoSimulation extends Simulation {
 	public boolean isFinished() {
 		return generation>MAX_EPISODE;
 	}
+	
+	public int getGeneration() { return this.generation; }
 	
 
 }

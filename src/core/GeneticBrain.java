@@ -1,5 +1,6 @@
 package core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import capteur.EnsembleDeCapteurs;
@@ -12,7 +13,7 @@ import tools.Outils;
  * @author DHT
  *
  */
-public class GeneticBrain extends IA {
+public class GeneticBrain extends IA implements Serializable {
 
 	/** Nombre de neuronne de chaque couche */
 	private ArrayList<Integer> layer = new ArrayList<Integer>();

@@ -1,11 +1,13 @@
 package tools;
 
+import java.io.Serializable;
+
 /** Classe matrcie fournissant les fonctions necessaires a la manipulation de matrices
  * 
  * @author DHT
  * 
  */
-public class Matrix {
+public class Matrix  implements Serializable{
 	
 	/** 
 	 * Les coefficients de la matrice

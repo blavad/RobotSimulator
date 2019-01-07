@@ -35,9 +35,14 @@ public class GeneticRobot extends Robot {
 
 	private void initActions() {
 		this.actions = new ArrayList<Executable>();
-		actions.add(new Avancer(this, 5));
+		actions.add(new Avancer(this, 10));
 		actions.add(new Pivoter(this, 8));
 		actions.add(new Pivoter(this, -8));
+	}
+	
+	protected void initCapteurs(Plateau plateau) {
+		this.capObjectifs = new EnsembleDeCapteurs(this, plateau.getObjectifs(),0.,0.125,0.25,0.375,0.5,0.625,0.75,0.875);
+		this.capObstacles = new EnsembleDeCapteurs(this, plateau.getObstacles(),0.,0.125,0.875);
 	}
 	
 	public void draw(GraphicsContext g) {
