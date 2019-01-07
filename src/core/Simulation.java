@@ -18,10 +18,10 @@ public abstract class Simulation extends AnimationTimer {
 	public static final double SPEED_INIT = 1.0;
 	
 	/** Duree de chaque simulation en secondes */
-	public static final double DUREE_SIMUL = 50.;
+	public static final double DUREE_SIMUL = 90.;
 	
 	/** Nombre de generation maximale avant arret de la phase d'entrainement */
-	public static final int MAX_EPISODE = 1000;
+	public static final int MAX_EPISODE = 100000;
 	
 	/** Le contexte sur lequel on affiche les elements de decor*/
 	protected GraphicsContext drawContext;

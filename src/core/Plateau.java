@@ -22,33 +22,39 @@ public class Plateau {
 	public void initPlateau() {
 		// On place les obstacles
 		int epaisseur = 20;
+		int delta = 50;
+		int espace = 150;
 		obstacles.add(new Obstacle(0,0,width,epaisseur));
 		obstacles.add(new Obstacle(0,height - epaisseur,width,epaisseur));
 		obstacles.add(new Obstacle(0,0,epaisseur,height));
 		obstacles.add(new Obstacle(width - epaisseur,0,epaisseur,height));
 		
-		obstacles.add(new Obstacle(0,100,200,epaisseur));
-		obstacles.add(new Obstacle(300,350,150,epaisseur));
-		obstacles.add(new Obstacle(100,200,400,epaisseur));
+		obstacles.add(new Obstacle(0,100,width-espace,epaisseur));
+		obstacles.add(new Obstacle(espace,200,width-espace,epaisseur));
+		obstacles.add(new Obstacle(0,300,width-espace,epaisseur));
+		obstacles.add(new Obstacle(espace,400,width-espace,epaisseur));
 		
-		obstacles.add(new Obstacle(200,350,epaisseur,100));
+		//obstacles.add(new Obstacle(200,350,epaisseur,100));
 		
 
-		obstacles.add(new Obstacle(500,100,epaisseur,200));
-		obstacles.add(new Obstacle(200,350,epaisseur,100));
+		//obstacles.add(new Obstacle(500,100,epaisseur,200));
+		//obstacles.add(new Obstacle(200,350,epaisseur,100));
 		
 		// On place les objectifs
-		objectifs.add(new Objectif(100,150));
-		objectifs.add(new Objectif(100,400));
-		objectifs.add(new Objectif(400,150));
-		objectifs.add(new Objectif(500,400));
-		objectifs.add(new Objectif(700,100));
-		objectifs.add(new Objectif(300,300));
-		objectifs.add(new Objectif(600,200));
+		
+		objectifs.add(new Objectif(400,50));
 		objectifs.add(new Objectif(150,50));
-		objectifs.add(new Objectif(200,200));
-		objectifs.add(new Objectif(500,300));
-		objectifs.add(new Objectif(600,300));
+		objectifs.add(new Objectif(700,70));
+		objectifs.add(new Objectif(400,150));
+		objectifs.add(new Objectif(700,150));
+		objectifs.add(new Objectif(100,150));
+		objectifs.add(new Objectif(50,250));
+		objectifs.add(new Objectif(300,250));
+		objectifs.add(new Objectif(600,250));
+		objectifs.add(new Objectif(200,350));
+		objectifs.add(new Objectif(700,350));
+		objectifs.add(new Objectif(300,450));
+		objectifs.add(new Objectif(600,450));
 		
 	}
 	
