@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import core.TypeSimu;
 import tools.Debug;
 import tools.Outils;
  
@@ -153,9 +154,9 @@ class LancerControleur implements ActionListener {
 		s =  getClass().getResource("/ia/").getFile() + s;
 		Debug.log.println("Load "+s);
 		if (mon_type_ia.toString().equals("q"))
-			new TrainingWindow(TESTIA, Outils.loadQBrain(s));
+			new TrainingWindow(TypeSimu.TESTIA, Outils.loadQBrain(s));
 		else 
-			new TrainingWindow(TESTIA, Outils.loadGBrain(s));
+			new TrainingWindow(TypeSimu.TESTIA, Outils.loadGBrain(s));
 			
 		}
 	}
