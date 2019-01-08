@@ -8,16 +8,28 @@ import javax.xml.crypto.KeySelector.Purpose;
 import tools.*;
 import javafx.scene.canvas.GraphicsContext;
 
+/** Classe de la population de robots gentique
+ * 
+ * @author DHT
+ *
+ */
 public class Population {
-	
+	/** Taille standard de la population */
 	public static final int STD_SIZE = 1000;
 	
+	/** Le plateau sur lequel évolue la population*/
 	private Plateau plateau;
+	/** L'ensemble de robot de la population */
 	private ArrayList<GeneticRobot> population = new ArrayList<GeneticRobot>();
 	
+	/** Taille de la population */
 	private int size = 20;
+
+	/** Proportion de robot persistant a chaque generation */
 	private double keep_proba = 0.2;
+	/** Proportion de croisement genetique */
 	public double crossoverRate = .9;
+	/** Proportion de mutation */
 	public double mutationRate = 0.1;
 	
 	public Population(Plateau plateau, int size, double keep_proba){
@@ -116,8 +128,8 @@ public class Population {
 	
 	/** Mute les genes des enfants
 	 * 
-	 * @param childs
-	 * @return
+	 * @param childs les enfants
+	 * @return les enfants mutes
 	 */
 	private ArrayList<GeneticRobot> mutate(ArrayList<GeneticRobot> childs) {
 		ArrayList<GeneticRobot> mutate_childs = new ArrayList<GeneticRobot>();

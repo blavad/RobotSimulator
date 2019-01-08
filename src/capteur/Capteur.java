@@ -85,7 +85,7 @@ public class Capteur {
 		y_inter = robot.getPos().y + distance*Math.sin(robot.getAngle()+angleRelatif);
 		//Color c =(distance==DEFAULT_VAL)? Color.AQUA : Color.DARKRED;
 		//g.setStroke(c);
-		if (distance != 2*DEFAULT_VAL) {
+		if (distance != DEFAULT_VAL) {
 			g.strokeLine(robot.getPos().x,robot.getPos().y, x_inter, y_inter);
 		}
 	}

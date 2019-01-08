@@ -81,8 +81,9 @@ public class QAlgoSimulation extends Simulation {
         // On cree le nouveau plateau et le nouveau robot si l'episode est termine
         if (robot.isDead() || (speed*(lastTime-firstTime)/1.e9) > DUREE_SIMUL) {
         	Debug.log.println(robot.getNbFoundObj());
+        	Outils.saveQResults(robot, "donnees/" + name, plateau.getObjectifs().getObPX().size());
         	// Changement de plateau 
-        	if (episode%4==0) {
+        	if (episode%400==0) {
         		this.plateau = new Plateau();
         	}
         	this.plateau.initObjectifsPerso(1);
@@ -126,7 +127,7 @@ public class QAlgoSimulation extends Simulation {
 				if (intersects(robot, (Obstacle)ob)) {
 					if (!robot.isDead()) {
 						robot.dead();
-						dr-=Math.pow(800, 3)*(2-current_time/DUREE_SIMUL);
+						dr-=Math.pow(800, 4)*(2-current_time/DUREE_SIMUL);
 					}
 				}
 			}

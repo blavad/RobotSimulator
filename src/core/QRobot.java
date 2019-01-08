@@ -44,7 +44,7 @@ public class QRobot extends Robot {
 	}
 	
 	protected void initCapteurs(Plateau plateau) {
-		this.capObjectifs = new EnsembleDeCapteurs(this, plateau.getObjectifs(),0.,0.01,0.05,0.99,0.95,0.125,0.875);
+		this.capObjectifs = new EnsembleDeCapteurs(this, plateau.getObjectifs(),0.,0.1,0.9);
 		this.capObstacles = new EnsembleDeCapteurs(this, plateau.getObstacles(),0.,0.2,0.8);
 	}
 	
@@ -101,7 +101,7 @@ public class QRobot extends Robot {
 		for (int i = 0;  i< capObstacles.getSize();i++) {
 			double val = capObstacles.getCapteur(i).getValue();
 			int s_capt =0;
-			if (val < 60)
+			if (val < 80)
 				s_capt =0;
 			else if (val < 200)
 				s_capt =1;
@@ -127,7 +127,7 @@ public class QRobot extends Robot {
 	public double getDistanceScore() {
 		// rate représente l'importance de chaque partie
 		double rate = 0.5;
-		return 1.*(rate*Math.pow((Capteur.DEFAULT_VAL-this.capObjectifs.getCapteur(0).getValue()),2)-(1-rate)*(Math.pow(Capteur.DEFAULT_VAL-this.capObstacles.getCapteur(0).getValue(),1)));
+		return 1.*(rate*Math.pow((Capteur.DEFAULT_VAL-this.capObjectifs.getCapteur(0).getValue()),2)-(1-rate)*(Math.pow(Capteur.DEFAULT_VAL-this.capObstacles.getCapteur(0).getValue(),2)));
 	}
 
 	/** Met le robot dans l'etat ACTION_EN_COURS ou desactive cet etat

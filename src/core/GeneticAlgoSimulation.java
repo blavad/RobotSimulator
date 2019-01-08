@@ -47,7 +47,7 @@ public class GeneticAlgoSimulation extends Simulation {
         // On cree le nouveau plateau et la nouvelle population 
         if (population.allDead() || (speed*(lastTime-firstTime)/1.e9) > DUREE_SIMUL) {
         	// Sauvegarde les donnees dans un fichier texte
-        	Outils.saveGResults(population.getRobots(), "donnees/" + name + ".txt", plateau.getObjectifs().getObPX().size());
+        	Outils.saveGResults(population.getRobots(), "donnees/" + name, plateau.getObjectifs().getObPX().size());
         	
         	// On creer un nouveay plateau
         	if (generation%4==0) {

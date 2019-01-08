@@ -18,6 +18,11 @@ import javafx.application.Platform;
 import tools.Debug;
 import tools.Outils;
  
+/** Fenetre de choix de l'IA sauvegardee (au travers d'une arborescence de fichiers)
+ * 
+ * @author DHT
+ *
+ */
 public class Fenetre extends JFrame {
  
   public JTree arbre;
@@ -66,8 +71,8 @@ public class Fenetre extends JFrame {
 	panelBoutton.setLayout(new FlowLayout());
 	annuler.addActionListener(new AnnulerControleur(this));
 	panelBoutton.add(annuler);
-	//supp.addActionListener(new SupprimerControleur(this));
-	//panelBoutton.add(supp);
+	supp.addActionListener(new SupprimerControleur(this));
+	panelBoutton.add(supp);
 	lancer.addActionListener(new LancerControleur(this));
 	panelBoutton.add(lancer);
 	
@@ -108,6 +113,11 @@ public class Fenetre extends JFrame {
   }
 }
 
+/** Controleur de click sur annuler
+ * 
+ * @author DHT
+ *
+ */
 class AnnulerControleur implements ActionListener {
 	
 	/** La fenetre d'appel */
@@ -129,6 +139,11 @@ class AnnulerControleur implements ActionListener {
 	}
 }
 
+/** Controleur du lancement du test
+ * 
+ * @author DHT
+ *
+ */
 class LancerControleur implements ActionListener {
 	
 	/** La fenetre d'appel */
@@ -170,6 +185,11 @@ class LancerControleur implements ActionListener {
 	}
 }
 	
+/** Controleur de suppression d'une IA
+ * 
+ * @author DHT
+ *
+ */
 class SupprimerControleur implements ActionListener {
 	
 	/** La fenetre d'appel */
@@ -188,11 +208,8 @@ class SupprimerControleur implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		DefaultMutableTreeNode mon_ia = (DefaultMutableTreeNode)fenetre.arbre.getLastSelectedPathComponent();
 		DefaultMutableTreeNode mon_type_ia;
-		
-		
 		String s = mon_ia.toString();
-		if (!s.isEmpty() && s.charAt(s.length()-1)!='/') {
-			
+		if (!s.isEmpty() && s.charAt(s.length()-1)!='/') {	
 			mon_type_ia = (DefaultMutableTreeNode) mon_ia.getParent();
 			s = mon_type_ia.toString()+ "/" + s;	
 			s =  getClass().getResource("/ia/").getPath() + s;
