@@ -9,7 +9,7 @@ import tools.Outils;
  *
  */
 public class Plateau {
-
+	
 	private int width;
 	private int height;
 	/** Ensemble des obstacles du plateau */
@@ -24,10 +24,10 @@ public class Plateau {
 		this.objectifs = new EnsembleObjetP();		
 		
 		// initialise le plateau préconstruit
-		initPlateau();
+		//initPlateau();
 		
 		// initialise un plateau aléatoire
-		//initRandomPlateau();
+		initRandomPlateau();
 		
 	}
 	
@@ -98,8 +98,8 @@ public class Plateau {
 		obstacles.add(new Obstacle(0,0,epaisseur,height));
 		obstacles.add(new Obstacle(width - epaisseur,0,epaisseur,height));
 		
-		int nb_mur = 4;//Outils.RAND.nextInt(4);
-		int nb_obj = Outils.RAND.nextInt(42)+8;
+		int nb_mur = 0;//Outils.RAND.nextInt(4);
+		int nb_obj = 25;//Outils.RAND.nextInt(42)+8;
 		
 		for (int mur =0; mur <nb_mur; mur++) {
 			if (Outils.RAND.nextBoolean())

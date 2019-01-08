@@ -84,7 +84,7 @@ public class QAlgoSimulation extends Simulation {
         	Debug.log.println(robot.getNbFoundObj());
         	Outils.saveQResults(robot, "donnees/" + name, plateau.getObjectifs().getObPX().size());
         	// Changement de plateau 
-        	if (episode%400==0) {
+        	if (episode%4==0) {
         		this.plateau = new Plateau();
         	}
         	this.plateau.initObjectifsPerso(1);
