@@ -6,6 +6,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import tools.*;
 
+/** Classe abstraite gerant les aspects generaux de toutes simulations
+ * 
+ * @author DHT
+ *
+ */
 public abstract class Simulation extends AnimationTimer {
 
 	/** Vitesse maximale de la simulation */

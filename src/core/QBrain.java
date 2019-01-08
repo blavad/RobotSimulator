@@ -7,8 +7,8 @@ import tools.Debug;
 import tools.Matrix;
 import tools.Outils;
 
-/*
- * IA du robot utilisant la methode de Q-learning
+/** Intelligence du robot utilisant la methode de Q-learning
+ * 
  */
 public class QBrain extends IA implements Serializable {
 

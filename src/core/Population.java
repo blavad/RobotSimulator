@@ -8,7 +8,7 @@ import javax.xml.crypto.KeySelector.Purpose;
 import tools.*;
 import javafx.scene.canvas.GraphicsContext;
 
-/** Classe de la population de robots gentique
+/** Classe de la population de robots genetique
  * 
  * @author DHT
  *

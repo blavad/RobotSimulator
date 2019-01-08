@@ -10,6 +10,11 @@ import tools.Debug;
 import tools.Outils;
 import tools.Vect2;
 
+/** Classe gerant la simulation d'un algorithme genetique
+ * 
+ * @author DHT
+ *
+ */
 public class GeneticAlgoSimulation extends Simulation {
 
 	/** La population d'individus du modele genetique */
@@ -73,6 +78,9 @@ public class GeneticAlgoSimulation extends Simulation {
     	Debug.log.println("#> Sauvegarde de la meilleure IA reussie");
 	}
 	
+	/**
+	 * Verifie si une collision s'est produite et mets a jour le score en fonction
+	 */
 	private void checkCollision() {
 		// regarde les collisions entre le robot et les objectis 
 		if (plateau.getObjectifs() != null) {

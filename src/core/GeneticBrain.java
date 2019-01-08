@@ -8,7 +8,7 @@ import tools.Debug;
 import tools.Matrix;
 import tools.Outils;
 
-/** IA du robot utilisant la methode de l'algo genetique (il s'agit d'un simple reseau de neuronne (NN) "fully-connected")
+/** Intelligence du robot utilisant la methode de l'algo genetique (il s'agit d'un simple reseau de neuronne (NN) "fully-connected")
  * 
  * @author DHT
  *

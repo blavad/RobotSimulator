@@ -7,7 +7,8 @@ import tools.Debug;
 import tools.Outils;
 import tools.Vect2;
 
-/**
+/** Classe gerant la simulation par l'algorithme de Q-learning
+ * 
  * 
  * @author DHT
  *

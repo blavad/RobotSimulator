@@ -6,6 +6,11 @@ import javafx.scene.text.Font;
 import tools.Debug;
 import tools.Outils;
 
+/** Classe gerant les tests d'une IA
+ * 
+ * @author DHT
+ *
+ */
 public class TestIAAlgo extends Simulation {
 	/**
 	 * Taux d'apprentissage
