@@ -22,7 +22,7 @@ public class QAlgoSimulation extends Simulation {
 	/**
 	 * Duree de l'action en seconde
 	 */
-	private static final double DUREE_ACTION  = 0.05;
+	public static final double DUREE_ACTION  = 0.05;
 	
 	/** 
 	 * Le robot du modele de Q-learning
@@ -114,7 +114,7 @@ public class QAlgoSimulation extends Simulation {
 						((Objectif)ob).activate(0);
 						robot.addFoundObj();
 						// Mesure la recompense
-						dr+= 800*800*(2-current_time/DUREE_SIMUL);
+						dr+= Math.pow(800, 2)*(2-current_time/DUREE_SIMUL);
 					}
 				}
 			}
@@ -126,7 +126,7 @@ public class QAlgoSimulation extends Simulation {
 				if (intersects(robot, (Obstacle)ob)) {
 					if (!robot.isDead()) {
 						robot.dead();
-						dr-=10000*10000*(2-current_time/DUREE_SIMUL);
+						dr-=Math.pow(800, 3)*(2-current_time/DUREE_SIMUL);
 					}
 				}
 			}

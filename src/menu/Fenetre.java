@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.rmi.RemoteException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,10 +22,10 @@ public class Fenetre extends JFrame {
  
   public JTree arbre;
   private DefaultMutableTreeNode racine;
-  private JButton annuler = new JButton("Annuler"), lancer = new JButton("Lancer");
+  private JButton annuler = new JButton("Annuler"), supp = new JButton("Supprimer"), lancer = new JButton("Lancer");
   
   public Fenetre(){
-    this.setSize(200, 200);
+    this.setSize(300, 200);
     this.setLocationRelativeTo(null);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setTitle("Choix IA");
@@ -38,41 +37,42 @@ public class Fenetre extends JFrame {
  
   private void listRoot(){
 	  
-	  
-    this.racine = new DefaultMutableTreeNode("ia");
-    // Hierarchie contenant les fichiers de Q-learning
-    File q_folder = new File(getClass().getResource("/ia/q/").getFile());
-    DefaultMutableTreeNode q_ia = new DefaultMutableTreeNode("q");
-    try {
-    	for(File nom : q_folder.listFiles()){
-    		DefaultMutableTreeNode node = new DefaultMutableTreeNode(nom.getName());
-    		q_ia.add(this.listFile(nom, node));
-    	}
-    } catch (NullPointerException e) {}   
-    this.racine.add(q_ia);
-
-    // Hierarchie contenant les fichiers d'algo genetique
-    File genetic_folder = new File(getClass().getResource("/ia/genetic/").getPath());
-    DefaultMutableTreeNode genetic_ia = new DefaultMutableTreeNode("genetic");
-    try {
-    	for(File nom : genetic_folder.listFiles()){
-    		DefaultMutableTreeNode node = new DefaultMutableTreeNode(nom.getName());
-    		genetic_ia.add(this.listFile(nom, node));
-    	}
-    } catch (NullPointerException e) {} 
-    this.racine.add(genetic_ia);
-    arbre = new JTree(racine);
-    
-    // Panel de bouton
-    JPanel panelBoutton = new JPanel();
-    panelBoutton.setLayout(new FlowLayout());
-    annuler.addActionListener(new AnnulerControleur(this));
-    panelBoutton.add(annuler);
-    lancer.addActionListener(new LancerControleur(this));
-    panelBoutton.add(lancer);
-    
-    this.getContentPane().add(new JScrollPane(arbre), BorderLayout.CENTER);
-    this.getContentPane().add(panelBoutton, BorderLayout.SOUTH);
+	this.racine = new DefaultMutableTreeNode("ia");
+	// Hierarchie contenant les fichiers de Q-learning
+	File q_folder = new File(getClass().getResource("/ia/q/").getFile());
+	DefaultMutableTreeNode q_ia = new DefaultMutableTreeNode("q");
+	try {
+		for(File nom : q_folder.listFiles()){
+			DefaultMutableTreeNode node = new DefaultMutableTreeNode(nom.getName());
+			q_ia.add(this.listFile(nom, node));
+		}
+	} catch (NullPointerException e) {}   
+	this.racine.add(q_ia);
+	
+	// Hierarchie contenant les fichiers d'algo genetique
+	File genetic_folder = new File(getClass().getResource("/ia/genetic/").getPath());
+	DefaultMutableTreeNode genetic_ia = new DefaultMutableTreeNode("genetic");
+	try {
+		for(File nom : genetic_folder.listFiles()){
+			DefaultMutableTreeNode node = new DefaultMutableTreeNode(nom.getName());
+			genetic_ia.add(this.listFile(nom, node));
+		}
+	} catch (NullPointerException e) {} 
+	this.racine.add(genetic_ia);
+	arbre = new JTree(racine);
+	
+	// Panel de bouton
+	JPanel panelBoutton = new JPanel();
+	panelBoutton.setLayout(new FlowLayout());
+	annuler.addActionListener(new AnnulerControleur(this));
+	panelBoutton.add(annuler);
+	//supp.addActionListener(new SupprimerControleur(this));
+	//panelBoutton.add(supp);
+	lancer.addActionListener(new LancerControleur(this));
+	panelBoutton.add(lancer);
+	
+	this.getContentPane().add(new JScrollPane(arbre), BorderLayout.CENTER);
+	this.getContentPane().add(panelBoutton, BorderLayout.SOUTH);
   }
      
   private DefaultMutableTreeNode listFile(File file, DefaultMutableTreeNode node){
@@ -170,6 +170,38 @@ class LancerControleur implements ActionListener {
 	}
 }
 	
+class SupprimerControleur implements ActionListener {
+	
+	/** La fenetre d'appel */
+	private Fenetre fenetre;
+	
+	/** Constructeur du controleur
+	 * 
+	 * @param f la fenetre liee au controleur 
+	 * 
+	 */
+	public SupprimerControleur(Fenetre f){
+		this.fenetre =f;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		DefaultMutableTreeNode mon_ia = (DefaultMutableTreeNode)fenetre.arbre.getLastSelectedPathComponent();
+		DefaultMutableTreeNode mon_type_ia;
+		
+		
+		String s = mon_ia.toString();
+		if (!s.isEmpty() && s.charAt(s.length()-1)!='/') {
+			
+			mon_type_ia = (DefaultMutableTreeNode) mon_ia.getParent();
+			s = mon_type_ia.toString()+ "/" + s;	
+			s =  getClass().getResource("/ia/").getPath() + s;
+			Debug.log.println("Suppression "+s);
+			File f = new File(s);
+			f.delete();
+		}
+	}
+}
 	
 	
 	
