@@ -2,12 +2,15 @@ package core;
 
 import java.util.Collections;
 
+import com.sun.org.apache.xalan.internal.xsltc.runtime.Parameter;
+
 import capteur.Capteur;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import tools.Debug;
 import tools.Outils;
+import tools.Parametre;
 import tools.Vect2;
 
 /** Classe gerant la simulation d'un algorithme genetique
@@ -26,8 +29,8 @@ public class GeneticAlgoSimulation extends Simulation {
 	
 	public GeneticAlgoSimulation(GraphicsContext drawContext, String name) {
 		super(drawContext, name);
-		plateau.initObjectifsPerso(Population.STD_SIZE);
-		population = new Population(plateau, Population.STD_SIZE, 0.03);
+		plateau.initObjectifsPerso(Parametre.TAILLE_POP);
+		population = new Population(plateau, Parametre.TAILLE_POP);
 	}
 	
 	@Override
@@ -50,7 +53,7 @@ public class GeneticAlgoSimulation extends Simulation {
         drawInfo();
         
         // On cree le nouveau plateau et la nouvelle population 
-        if (population.allDead() || (speed*(lastTime-firstTime)/1.e9) > DUREE_SIMUL) {
+        if (population.allDead() || (speed*(lastTime-firstTime)/1.e9) > Parametre.DUREE_SIMUL) {
         	// Sauvegarde les donnees dans un fichier texte
         	Outils.saveGResults(population.getRobots(), "donnees/" + name, plateau.getObjectifs().getObPX().size());
         	
@@ -58,7 +61,7 @@ public class GeneticAlgoSimulation extends Simulation {
         	if (generation%4==0) {
         		this.plateau = new Plateau();
         	}
-        	this.plateau.initObjectifsPerso(Population.STD_SIZE);
+        	this.plateau.initObjectifsPerso(Parametre.TAILLE_POP);
         	this.population = population.nextGeneration(this.plateau);
     		generation++;
     		if (isFinished()) {
@@ -90,7 +93,7 @@ public class GeneticAlgoSimulation extends Simulation {
 					if (d < Math.pow(population.getRobot(rob).getRayon() + ((Objectif)ob).getRayon(), 2)) {
 						if (! ((Objectif)ob).isActive(rob)) {
 							((Objectif)ob).activate(rob);
-							population.getRobot(rob).addScore((int)(DUREE_SIMUL-(speed*(lastTime-firstTime)/1.e9)));
+							population.getRobot(rob).addScore((int)(Parametre.DUREE_SIMUL-(speed*(lastTime-firstTime)/1.e9)));
 							population.getRobot(rob).addFoundObj();
 						}
 					}
@@ -104,7 +107,7 @@ public class GeneticAlgoSimulation extends Simulation {
 					if (intersects(population.getRobot(rob), (Obstacle)ob)) {
 						if (!population.getRobot(rob).isDead()) {
 							population.getRobot(rob).dead();
-							population.getRobot(rob).addScore(-(int)(DUREE_SIMUL-(speed*(lastTime-firstTime)/1.e9)));
+							population.getRobot(rob).addScore(-(int)(Parametre.DUREE_SIMUL-(speed*(lastTime-firstTime)/1.e9)));
 						}
 					}
 				}
@@ -141,7 +144,7 @@ public class GeneticAlgoSimulation extends Simulation {
 
 	@Override
 	public boolean isFinished() {
-		return generation>MAX_EPISODE;
+		return generation>Parametre.MAX_EPISODE;
 	}
 	
 	public int getGeneration() { return this.generation; }

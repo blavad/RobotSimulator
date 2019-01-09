@@ -2,6 +2,7 @@ package core;
 
 import javafx.scene.canvas.GraphicsContext;
 import tools.Outils;
+import tools.Parametre;
 
 /** Classe du plateau 
  * 
@@ -98,8 +99,8 @@ public class Plateau {
 		obstacles.add(new Obstacle(0,0,epaisseur,height));
 		obstacles.add(new Obstacle(width - epaisseur,0,epaisseur,height));
 		
-		int nb_mur = 0;//Outils.RAND.nextInt(4);
-		int nb_obj = 25;//Outils.RAND.nextInt(42)+8;
+		int nb_mur = Parametre.NB_MUR;
+		int nb_obj = Parametre.NB_OBJ;
 		
 		for (int mur =0; mur <nb_mur; mur++) {
 			if (Outils.RAND.nextBoolean())

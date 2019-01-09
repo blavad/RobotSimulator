@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import tools.Debug;
 import tools.Outils;
+import tools.Parametre;
 
 /** Classe gerant les tests d'une IA
  * 
@@ -12,10 +13,7 @@ import tools.Outils;
  *
  */
 public class TestIAAlgo extends Simulation {
-	/**
-	 * Taux d'apprentissage
-	 */
-	public static final double LEARNING_RATE = 0.2;
+	
 
 	/**
 	 * Duree de l'action en seconde
@@ -86,7 +84,7 @@ public class TestIAAlgo extends Simulation {
         drawNumEpisode();
         
         // On cree le nouveau plateau et le nouveau robot si l'episode est termine
-        if (robot.isDead() || (speed*(lastTime-firstTime)/1.e9) > DUREE_SIMUL) {
+        if (robot.isDead() || (speed*(lastTime-firstTime)/1.e9) > Parametre.DUREE_SIMUL) {
         	//Debug.log.println(robot.getNbFoundObj());
         	// Changement de plateau 
         	if (episode%4==0) {
@@ -111,18 +109,20 @@ public class TestIAAlgo extends Simulation {
 	 * Verifie si une collision s'est produite et mets a jour le score en fonction
 	 */
 	private void checkCollision() {
-		
-		int current_time = (int)(DUREE_SIMUL-(speed*(lastTime-firstTime)/1.e9));
+	
+		int current_time = (int)(Parametre.DUREE_SIMUL-(speed*(lastTime-firstTime)/1.e9));
 		// regarde les collisions entre le robot et les objectis 
 		if (plateau.getObjectifs() != null) {
 			for (ObjetPlateau ob : plateau.getObjectifs().getObPX()) {
+				if (((Objectif)ob).getPos() == null)
+					Debug.log.print("beug");
 				double d = Outils.norme2AB(((Objectif)ob).getPos(), robot.getPos());
 				if (d < Math.pow(robot.getRayon() + ((Objectif)ob).getRayon(), 2)) {
 					if (! ((Objectif)ob).isActive(0)) {
 						((Objectif)ob).activate(0);
 						robot.addFoundObj();
 						// Mesure la recompense
-						dr+= 800*800*(2-current_time/DUREE_SIMUL);
+						dr+= 800*800*(2-current_time/Parametre.DUREE_SIMUL);
 					}
 				}
 			}
@@ -134,7 +134,7 @@ public class TestIAAlgo extends Simulation {
 				if (intersects(robot, (Obstacle)ob)) {
 					if (!robot.isDead()) {
 						robot.dead();
-						dr-=10000*10000*(2-current_time/DUREE_SIMUL);
+						dr-=10000*10000*(2-current_time/Parametre.DUREE_SIMUL);
 					}
 				}
 			}
@@ -151,7 +151,7 @@ public class TestIAAlgo extends Simulation {
 	
 	@Override
 	public boolean isFinished() {
-		return episode>MAX_EPISODE;
+		return episode>Parametre.MAX_EPISODE;
 	}
 	
 	public void saveIA() {

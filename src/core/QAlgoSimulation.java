@@ -5,20 +5,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import tools.Debug;
 import tools.Outils;
+import tools.Parametre;
 import tools.Vect2;
 
 /** Classe gerant la simulation par l'algorithme de Q-learning
- * 
  * 
  * @author DHT
  *
  */
 public class QAlgoSimulation extends Simulation {
-	
-	/**
-	 * Taux d'apprentissage
-	 */
-	public static final double LEARNING_RATE = 0.2;
 
 	/**
 	 * Duree de l'action en seconde
@@ -80,7 +75,7 @@ public class QAlgoSimulation extends Simulation {
         drawNumEpisode();
         
         // On cree le nouveau plateau et le nouveau robot si l'episode est termine
-        if (robot.isDead() || (speed*(lastTime-firstTime)/1.e9) > DUREE_SIMUL) {
+        if (robot.isDead() || (speed*(lastTime-firstTime)/1.e9) > Parametre.DUREE_SIMUL) {
         	Debug.log.println(robot.getNbFoundObj());
         	Outils.saveQResults(robot, "donnees/" + name, plateau.getObjectifs().getObPX().size());
         	// Changement de plateau 
@@ -106,7 +101,7 @@ public class QAlgoSimulation extends Simulation {
 	 */
 	private void checkCollision() {
 		
-		int current_time = (int)(DUREE_SIMUL-(speed*(lastTime-firstTime)/1.e9));
+		int current_time = (int)(Parametre.DUREE_SIMUL-(speed*(lastTime-firstTime)/1.e9));
 		// regarde les collisions entre le robot et les objectis 
 		if (plateau.getObjectifs() != null) {
 			for (ObjetPlateau ob : plateau.getObjectifs().getObPX()) {
@@ -116,7 +111,7 @@ public class QAlgoSimulation extends Simulation {
 						((Objectif)ob).activate(0);
 						robot.addFoundObj();
 						// Mesure la recompense
-						dr+= Math.pow(800, 2)*(2-current_time/DUREE_SIMUL);
+						dr+= Math.pow(800, 2)*(2-current_time/Parametre.DUREE_SIMUL);
 					}
 				}
 			}
@@ -128,7 +123,7 @@ public class QAlgoSimulation extends Simulation {
 				if (intersects(robot, (Obstacle)ob)) {
 					if (!robot.isDead()) {
 						robot.dead();
-						dr-=Math.pow(800, 4)*(2-current_time/DUREE_SIMUL);
+						dr-=Math.pow(800, 4)*(2-current_time/Parametre.DUREE_SIMUL);
 					}
 				}
 			}
@@ -145,7 +140,7 @@ public class QAlgoSimulation extends Simulation {
 	
 	@Override
 	public boolean isFinished() {
-		return episode>MAX_EPISODE;
+		return episode>Parametre.MAX_EPISODE;
 	}
 	
 	public void saveIA() {

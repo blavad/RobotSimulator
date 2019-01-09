@@ -6,6 +6,7 @@ import capteur.EnsembleDeCapteurs;
 import tools.Debug;
 import tools.Matrix;
 import tools.Outils;
+import tools.Parametre;
 
 /** Intelligence du robot utilisant la methode de Q-learning
  * 
@@ -75,7 +76,7 @@ public class QBrain extends IA implements Serializable {
 		int act2 = 0;
 		// Mise a jour de la matrcie Q
 		Q.get(s_final, new Matrix(Q.copy()[s_final]).argmax());
-		value = (1-QAlgoSimulation.LEARNING_RATE)*Q.get(s_init, act) + QAlgoSimulation.LEARNING_RATE * (rec+ lambda*Q.get(s_final, act2));
+		value = (1-Parametre.LEARNING_RATE)*Q.get(s_init, act) + Parametre.LEARNING_RATE * (rec+ lambda*Q.get(s_final, act2));
 		Q.set(s_init, act, value);
 		lambda *= 0.999;
 		eps*=.9999;

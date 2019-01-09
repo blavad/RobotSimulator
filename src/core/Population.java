@@ -14,8 +14,6 @@ import javafx.scene.canvas.GraphicsContext;
  *
  */
 public class Population {
-	/** Taille standard de la population */
-	public static final int STD_SIZE = 1000;
 	
 	/** Le plateau sur lequel évolue la population*/
 	private Plateau plateau;
@@ -23,29 +21,20 @@ public class Population {
 	private ArrayList<GeneticRobot> population = new ArrayList<GeneticRobot>();
 	
 	/** Taille de la population */
-	private int size = 20;
-
-	/** Proportion de robot persistant a chaque generation */
-	private double keep_proba = 0.2;
-	/** Proportion de croisement genetique */
-	public double crossoverRate = .9;
-	/** Proportion de mutation */
-	public double mutationRate = 0.1;
+	private int size;
 	
-	public Population(Plateau plateau, int size, double keep_proba){
+	public Population(Plateau plateau, int size){
 		this.plateau = plateau;
 		this.size = size;
-		this.keep_proba = keep_proba;
 		for (int i=0; i<this.size; i++){
 			population.add(new GeneticRobot(plateau,i));
 		}
 	}
 	
-	public Population(Plateau plateau, ArrayList<GeneticRobot> robots, double keep_proba){
+	public Population(Plateau plateau, ArrayList<GeneticRobot> robots){
 		this.plateau = plateau;
 		this.population = robots;
 		this.size = robots.size();
-		this.keep_proba = keep_proba;
 		
 	}
 
@@ -75,7 +64,7 @@ public class Population {
 		// Create the new population for the following generation
 		parents.addAll(childs);
 		Debug.log.println("Nouvelle population : "+parents.size()+" indiv");
-		Population newPop = new Population(plateau, parents, this.keep_proba);
+		Population newPop = new Population(plateau, parents);
 		
 		return newPop;
 	}
@@ -94,7 +83,7 @@ public class Population {
 		}
 		Debug.log.println(deb_fitness);
 		// Selection des keep_proba pourcent meilleurs parents
-		int SIZE_PARENTS = (int)(this.keep_proba*this.size);
+		int SIZE_PARENTS = (int)(Parametre.KEEP_PROBA*this.size);
 		ArrayList<GeneticRobot> parents = new ArrayList<GeneticRobot>();
 		for (int i = 0; i < SIZE_PARENTS; i++) {
 			parents.add(new GeneticRobot(this.plateau, population.get(i).getBrain(),i));
@@ -109,11 +98,11 @@ public class Population {
 	 */
 	private ArrayList<GeneticRobot> crossover(ArrayList<GeneticRobot> parents) {
 		ArrayList<GeneticRobot> childs = new ArrayList<GeneticRobot>();
-		int SIZE_PARENTS = (int)(this.keep_proba*this.size);
+		int SIZE_PARENTS = (int)(Parametre.KEEP_PROBA*this.size);
 		
 		for (int child = SIZE_PARENTS; child < this.size; child++) {
 			IA newBrain = null;
-			if (Math.random() <= crossoverRate) {
+			if (Math.random() <= Parametre.CROSS_RATE) {
 				// Recupere 2 parents aleatoirement et croise leurs genes
 				int p1 = Outils.RAND.nextInt(parents.size()), p2 = Outils.RAND.nextInt(parents.size());
 				newBrain = ((GeneticBrain)parents.get(p1).getBrain()).cross((GeneticBrain)parents.get(p2).getBrain());
@@ -133,10 +122,10 @@ public class Population {
 	 */
 	private ArrayList<GeneticRobot> mutate(ArrayList<GeneticRobot> childs) {
 		ArrayList<GeneticRobot> mutate_childs = new ArrayList<GeneticRobot>();
-		int SIZE_PARENTS = (int)(this.keep_proba*this.size);
+		int SIZE_PARENTS = (int)(Parametre.KEEP_PROBA*this.size);
 		
 		for (int child = 0; child < childs.size(); child++) {
-			IA mutate_brain = ((GeneticBrain)childs.get(child).getBrain()).mutate(mutationRate);
+			IA mutate_brain = ((GeneticBrain)childs.get(child).getBrain()).mutate(Parametre.MUTATION_RATE);
 			mutate_childs.add(new GeneticRobot(this.plateau, mutate_brain, child+SIZE_PARENTS));
 		}
 		return mutate_childs;
